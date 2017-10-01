@@ -7,7 +7,7 @@
 //
 
 import Foundation
-class HNScraper {
+public class HNScraper {
     // ==================================================
     // MARK: Private members
     // ==================================================
@@ -37,7 +37,7 @@ class HNScraper {
     public typealias PostListDownloadCompletionHandler = (([HNPost], String?, HNScraperError?) -> Void) // (list, linkForMore, error)
     
     /// Supported post list pages
-    enum PostListPageName {
+    public enum PostListPageName {
         /// Home page
         case news
         // Today's front page
@@ -61,7 +61,7 @@ class HNScraper {
     }
     
     /// Errors thrown by the scraper
-    enum HNScraperError: Error {
+    public enum HNScraperError: Error {
         /// The configuration file is needed but couldn't be downloaded/find locally
         case missingOrCorruptedConfigFile
         /// When a method fails to parse structured data
@@ -116,7 +116,7 @@ class HNScraper {
     
     
     
-    static let shared = HNScraper()
+    public static let shared = HNScraper()
     
     
     

@@ -10,8 +10,8 @@ import Foundation
 
 
 /// Model used by the HN Scraper to store avery data about a post.
-class HNPost {
-    enum PostType {
+public class HNPost {
+    public enum PostType {
         case defaultType
         case askHN
         case jobs
@@ -61,7 +61,7 @@ class HNPost {
     var replyText: String?
     
     
-    init() {}
+    public init() {}
     
     /**
      * Build the model by parsing the html of a post item on the HN website.
@@ -69,7 +69,7 @@ class HNPost {
      *      - html: the html code to parse
      *      - parseConfig: the parameters from the json file containing all the needed parsing informations.
      */
-    convenience init?(fromHtml html: String, withParsingConfig parseConfig: [String : Any]) {
+    public convenience init?(fromHtml html: String, withParsingConfig parseConfig: [String : Any]) {
         self.init()
         
         var postsConfig: [String : Any]? = (parseConfig["Post"] != nil) ? parseConfig["Post"] as? [String : Any] : nil

@@ -29,10 +29,32 @@ Before going further, note that there is an [official API](https://github.com/Ha
 ## Installation
 
 #### Pod
-Coming soon
+
+Ensure you have at least the following code in your `Podfile`:
+
+```
+use_frameworks!
+
+target 'TestPod' do
+    pod 'HNScraper', '~> 0.1.1'
+end
+```
+
+Run `pod install` in your project's folder.
+
+Then just add `import HNScraper` wherever you need the scraper.
+
+#### Framework
+
+In your app's target's **General** tab, click on the **+** button under he section **Embedded Binaries**, click on **Add Others...**  and select the file `HNScraper.framework` (that you'll find in the `build` folder). Ensure to check the option **Copy items if needed** when you import the file.
+
+
+Once you have imported the framework in your project, just add `import HNScrapper` where you want to use the scraper.
+
 
 #### Manually
-Add all the files from the `Source`folder in your project.
+
+Just add all the `.swift` files from the `HNScraper` folder in your project.
 
 ## Documentation
 

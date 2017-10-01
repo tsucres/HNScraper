@@ -8,7 +8,7 @@
 
 import Foundation
 
-class HNUser {
+public class HNUser {
     var username: String!
     var karma: Int!
     var age: Date!
@@ -16,7 +16,7 @@ class HNUser {
     var isNoob: Bool! = false // TODO
     
     
-    init(username: String, karma: Int, age: Date, aboutInfo: String? = nil) {
+    public init(username: String, karma: Int, age: Date, aboutInfo: String? = nil) {
         self.username = username
         self.age = age
         self.karma = karma
@@ -27,11 +27,11 @@ class HNUser {
      *      - age: the number of days in the past relatively to current date.
      *
      */
-    convenience init(username: String, karma: String, age: String, aboutInfo: String?) {
+    public convenience init(username: String, karma: String, age: String, aboutInfo: String?) {
         self.init(username: username, karma: Int(karma.replacingOccurrences(of: " ", with: "")) ?? 0, age: HNUser.dateFromNumberOfDays(Int(age) ?? 0), aboutInfo: aboutInfo)
     }
     
-    convenience init?(fromHtml html: String, withParsingConfig parseConfig: [String : Any]) {
+    public convenience init?(fromHtml html: String, withParsingConfig parseConfig: [String : Any]) {
         var userDict: [String : Any]? = parseConfig["User"] != nil ? parseConfig["User"] as? [String: Any] : nil
         if (userDict == nil || userDict!["Parts"] == nil) {
             return nil

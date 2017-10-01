@@ -49,7 +49,7 @@ class HNScraperLoginNeededTest: XCTestCase {
     // Try to upvote the first post of the home page
     func testUpvotePost() {
         let exp = expectation(description: "get no error")
-        getPost(id: "15356619") { (post) in
+        getFirstPost() { (post) in
             HNScraper.shared.upvote(Post: post!, completion: {(error) -> Void in
                 XCTAssertNil(error)
                 exp.fulfill()
@@ -145,14 +145,17 @@ class HNScraperLoginNeededTest: XCTestCase {
     
     func testUpvoteComment() {
         let exp = expectation(description: "Get no error")
-        HNScraper.shared.getComments(ByPostId: HNScraperTest.validPostId) { (post, comments, error) in
-            XCTAssertNil(error, "getComments methdod probably broken")
-            XCTAssertGreaterThan(comments.count, 0)
-            HNScraper.shared.upvote(Comment: comments[0], completion: { (error) in
-                XCTAssertNil(error)
-                exp.fulfill()
-            })
+        getFirstPost() { (post) in // Will fail if the top post has no comments...
+            HNScraper.shared.getComments(ForPost: post!) { (post, comments, error) in
+                XCTAssertNil(error, "getComments methdod probably broken")
+                XCTAssertGreaterThan(comments.count, 0)
+                HNScraper.shared.upvote(Comment: comments[0], completion: { (error) in
+                    XCTAssertNil(error)
+                    exp.fulfill()
+                })
+            }
         }
+        
         wait(for: [exp], timeout: 2*HNScraperTest.defaultTimeOut)
     }
     

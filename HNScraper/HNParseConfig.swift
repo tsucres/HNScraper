@@ -46,7 +46,7 @@ class HNParseConfig {
      parameter when the json file has been fetched. It firstly
      checks in the clocal storage if it has already been fetched.
      */
-    func getDictionnary(completion: @escaping (([String: Any]?, RessourceFetcher.RessourceFetchingError?) -> Void)) {
+    public func getDictionnary(completion: @escaping (([String: Any]?, RessourceFetcher.RessourceFetchingError?) -> Void)) {
         if self.data != nil {
             completion(self.data, nil)
         } else {
@@ -56,7 +56,7 @@ class HNParseConfig {
     
     
     /// Downloads the configFile and store it locally. If a configFile is already saved, it's replaced.
-    func downloadConfigFile(completion: @escaping (([String: Any]?, RessourceFetcher.RessourceFetchingError?) -> Void)) {
+    public func downloadConfigFile(completion: @escaping (([String: Any]?, RessourceFetcher.RessourceFetchingError?) -> Void)) {
         RessourceFetcher.shared.getJson(url: self.url, completion: { (json, error) -> Void in
             if (json != nil) {
                 let defaults = UserDefaults.standard

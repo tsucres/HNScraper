@@ -12,11 +12,11 @@ import Foundation
 // abdurhtl
 // !Bullshit?Psw$
 
-protocol HNLoginDelegate {
+public protocol HNLoginDelegate {
     func didLogin(user: HNUser, cookie: HTTPCookie)
 }
 
-class HNLogin {
+public class HNLogin {
     private var observers: [HNLoginDelegate] = []
     
     public func addObserver(_ observer: HNLoginDelegate) {
@@ -38,7 +38,7 @@ class HNLogin {
         }
     }
     
-    enum HNLoginError {
+    public enum HNLoginError {
         case badCredentials
         case serverUnreachable
         case noInternet
@@ -61,7 +61,7 @@ class HNLogin {
         }
     }
     
-    static let shared = HNLogin()
+    public static let shared = HNLogin()
     
     private var _sessionCookie: HTTPCookie?
     private var _user: HNUser?
@@ -84,7 +84,7 @@ class HNLogin {
      * user and passed as paramater to the completion handler along with a 
      * cookie containing the session data.
      */
-    func login(username: String, psw: String, completion: @escaping ((HNUser?, HTTPCookie?, HNLoginError?) -> Void)) {
+    public func login(username: String, psw: String, completion: @escaping ((HNUser?, HTTPCookie?, HNLoginError?) -> Void)) {
         let url = HNScraper.baseUrl + "login"
         let encodedPass = psw.addingPercentEncoding(withAllowedCharacters: CharacterSet(charactersIn: "!*'();:@&=+$,/?%#[]"))
         let bodyString = "acct=\(username)&pw=\(encodedPass!)&whence=news"
@@ -135,7 +135,7 @@ class HNLogin {
         
     }
     
-    func logout() {
+    public func logout() {
         if self._sessionCookie != nil {
             HTTPCookieStorage.shared.deleteCookie(self._sessionCookie!)
             self._sessionCookie = nil
@@ -249,7 +249,7 @@ class HNLogin {
         return nil
     }
     
-    func isLoggedIn() -> Bool {
+    public func isLoggedIn() -> Bool {
         return self.sessionCookie != nil && self._user != nil
     }
     
