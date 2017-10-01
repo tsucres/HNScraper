@@ -9,11 +9,11 @@
 import Foundation
 
 public class HNUser {
-    var username: String!
-    var karma: Int!
-    var age: Date!
-    var aboutInfo: String?
-    var isNoob: Bool! = false // TODO
+    public var username: String!
+    public var karma: Int!
+    public var age: Date!
+    public var aboutInfo: String?
+    public var isNoob: Bool! = false // TODO
     
     
     public init(username: String, karma: Int, age: Date, aboutInfo: String? = nil) {

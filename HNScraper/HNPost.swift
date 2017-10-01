@@ -16,7 +16,7 @@ public class HNPost {
         case askHN
         case jobs
         
-        init?(index: Int) {
+        public init?(index: Int) {
             switch index {
             case 0: self = .defaultType
             case 1: self = .askHN
@@ -26,10 +26,10 @@ public class HNPost {
         }
     }
     
-    var type: PostType = .defaultType
-    var username: String = ""
-    var url: URL?// = URL(string: "")!
-    var urlDomain: String {
+    public var type: PostType = .defaultType
+    public var username: String = ""
+    public var url: URL?// = URL(string: "")!
+    public var urlDomain: String {
         get {
             if url == nil {
                 return ""
@@ -41,24 +41,24 @@ public class HNPost {
             return dom ?? ""
         }
     }
-    var title: String = ""
-    var points: Int = 0
-    var commentCount: Int = 0
-    var id: String = ""
-    var time: String = ""
+    public var title: String = ""
+    public var points: Int = 0
+    public var commentCount: Int = 0
+    public var id: String = ""
+    public var time: String = ""
     
-    var upvoted: Bool = false
-    var upvoteAdditionURL: String?
+    public var upvoted: Bool = false
+    public var upvoteAdditionURL: String?
     
-    var favorited: Bool = false
-    var bookmarked: Bool = false
-    var readOn: Date?
+    public var favorited: Bool = false
+    public var bookmarked: Bool = false
+    public var readOn: Date?
     
-    var replyAction: String?
-    var replyParent: String?
-    var replyGoto: String?
-    var replyHmac: String?
-    var replyText: String?
+    public var replyAction: String?
+    public var replyParent: String?
+    public var replyGoto: String?
+    public var replyHmac: String?
+    public var replyText: String?
     
     
     public init() {}

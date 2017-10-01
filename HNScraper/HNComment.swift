@@ -7,19 +7,20 @@
 //
 
 import Foundation
+
 public class BaseComment {
-    var replies: [BaseComment]! = []
-    var level: Int! = 0
-    weak var replyTo: BaseComment?
+    public var replies: [BaseComment]! = []
+    public var level: Int! = 0
+    public weak var replyTo: BaseComment?
     
-    convenience init() {
+    public convenience init() {
         self.init(level: 0, replyTo: nil)
     }
-    init(level: Int, replyTo: BaseComment?) {
+    public init(level: Int, replyTo: BaseComment?) {
         self.level = level
         self.replyTo = replyTo
     }
-    func addReply(_ reply: BaseComment) {
+    public func addReply(_ reply: BaseComment) {
         self.replies.append(reply)
     }
     
