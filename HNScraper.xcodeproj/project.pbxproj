@@ -7,39 +7,33 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		97D0D84A1F78EF42007DE08A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0D8491F78EF42007DE08A /* AppDelegate.swift */; };
-		97D0D8511F78EF42007DE08A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97D0D8501F78EF42007DE08A /* Assets.xcassets */; };
-		97D0D8541F78EF42007DE08A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97D0D8521F78EF42007DE08A /* LaunchScreen.storyboard */; };
-		97D0D8611F78EF83007DE08A /* HNUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0D85B1F78EF83007DE08A /* HNUser.swift */; };
-		97D0D8621F78EF83007DE08A /* HNComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0D85C1F78EF83007DE08A /* HNComment.swift */; };
-		97D0D8631F78EF83007DE08A /* HNParseConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0D85D1F78EF83007DE08A /* HNParseConfig.swift */; };
-		97D0D8641F78EF83007DE08A /* HNLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0D85E1F78EF83007DE08A /* HNLogin.swift */; };
-		97D0D8651F78EF83007DE08A /* HNPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0D85F1F78EF83007DE08A /* HNPost.swift */; };
-		97D0D8661F78EF83007DE08A /* HNScraper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0D8601F78EF83007DE08A /* HNScraper.swift */; };
-		97D0D8681F78EFCE007DE08A /* RessourceFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0D8671F78EFCE007DE08A /* RessourceFetcher.swift */; };
-		97D0D8791F79403D007DE08A /* HNLoginTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0D8691F793FD6007DE08A /* HNLoginTest.swift */; };
-		97D0D87B1F795291007DE08A /* HNScraperTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0D87A1F795291007DE08A /* HNScraperTest.swift */; };
-		97D0D8831F7E440F007DE08A /* Scanner+ScanBetweenString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0D8821F7E440F007DE08A /* Scanner+ScanBetweenString.swift */; };
-		97D0D8851F7E441D007DE08A /* String+len.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0D8841F7E441D007DE08A /* String+len.swift */; };
-		97D0D8891F7E464D007DE08A /* RessourceFetcherTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0D8881F7E464D007DE08A /* RessourceFetcherTest.swift */; };
-		97D0D88C1F7E613D007DE08A /* HNPostTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0D88B1F7E613D007DE08A /* HNPostTest.swift */; };
+		97DA10621F81466400ADF5D8 /* HNScraper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97DA10591F81466300ADF5D8 /* HNScraper.framework */; };
+		97DA10701F81468C00ADF5D8 /* RessourceFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0D8671F78EFCE007DE08A /* RessourceFetcher.swift */; };
+		97DA10711F81468C00ADF5D8 /* Scanner+ScanBetweenString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0D8821F7E440F007DE08A /* Scanner+ScanBetweenString.swift */; };
+		97DA10721F81468C00ADF5D8 /* String+len.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0D8841F7E441D007DE08A /* String+len.swift */; };
+		97DA10731F81468C00ADF5D8 /* HNComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0D85C1F78EF83007DE08A /* HNComment.swift */; };
+		97DA10741F81468C00ADF5D8 /* HNLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0D85E1F78EF83007DE08A /* HNLogin.swift */; };
+		97DA10751F81468C00ADF5D8 /* HNParseConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0D85D1F78EF83007DE08A /* HNParseConfig.swift */; };
+		97DA10761F81468C00ADF5D8 /* HNPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0D85F1F78EF83007DE08A /* HNPost.swift */; };
+		97DA10771F81468C00ADF5D8 /* HNScraper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0D8601F78EF83007DE08A /* HNScraper.swift */; };
+		97DA10781F81468C00ADF5D8 /* HNUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0D85B1F78EF83007DE08A /* HNUser.swift */; };
+		97DA10791F8147C100ADF5D8 /* HNLoginTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0D8691F793FD6007DE08A /* HNLoginTest.swift */; };
+		97DA107A1F8147C100ADF5D8 /* HNScraperTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0D87A1F795291007DE08A /* HNScraperTest.swift */; };
+		97DA107B1F8147C100ADF5D8 /* HNPostTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0D88B1F7E613D007DE08A /* HNPostTest.swift */; };
+		97DA107C1F8147C100ADF5D8 /* RessourceFetcherTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0D8881F7E464D007DE08A /* RessourceFetcherTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		97D0D8741F79400C007DE08A /* PBXContainerItemProxy */ = {
+		97DA10631F81466400ADF5D8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 97D0D83E1F78EF42007DE08A /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 97D0D8451F78EF42007DE08A;
-			remoteInfo = HNScrapper;
+			remoteGlobalIDString = 97DA10581F81466300ADF5D8;
+			remoteInfo = HNScraper;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		97D0D8461F78EF42007DE08A /* HNScraper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HNScraper.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		97D0D8491F78EF42007DE08A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		97D0D8501F78EF42007DE08A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		97D0D8531F78EF42007DE08A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97D0D8551F78EF42007DE08A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		97D0D85B1F78EF83007DE08A /* HNUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HNUser.swift; sourceTree = "<group>"; };
 		97D0D85C1F78EF83007DE08A /* HNComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HNComment.swift; sourceTree = "<group>"; };
@@ -49,27 +43,29 @@
 		97D0D8601F78EF83007DE08A /* HNScraper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HNScraper.swift; sourceTree = "<group>"; };
 		97D0D8671F78EFCE007DE08A /* RessourceFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RessourceFetcher.swift; sourceTree = "<group>"; };
 		97D0D8691F793FD6007DE08A /* HNLoginTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HNLoginTest.swift; sourceTree = "<group>"; };
-		97D0D86F1F79400C007DE08A /* HNScraperTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HNScraperTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		97D0D8731F79400C007DE08A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		97D0D87A1F795291007DE08A /* HNScraperTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HNScraperTest.swift; sourceTree = "<group>"; };
 		97D0D8821F7E440F007DE08A /* Scanner+ScanBetweenString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Scanner+ScanBetweenString.swift"; sourceTree = "<group>"; };
 		97D0D8841F7E441D007DE08A /* String+len.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+len.swift"; sourceTree = "<group>"; };
 		97D0D8881F7E464D007DE08A /* RessourceFetcherTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RessourceFetcherTest.swift; sourceTree = "<group>"; };
 		97D0D88B1F7E613D007DE08A /* HNPostTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HNPostTest.swift; sourceTree = "<group>"; };
+		97DA10591F81466300ADF5D8 /* HNScraper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HNScraper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		97DA10611F81466300ADF5D8 /* HNScraperTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HNScraperTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		97D0D8431F78EF42007DE08A /* Frameworks */ = {
+		97DA10551F81466300ADF5D8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		97D0D86C1F79400C007DE08A /* Frameworks */ = {
+		97DA105E1F81466300ADF5D8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				97DA10621F81466400ADF5D8 /* HNScraper.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -88,8 +84,8 @@
 		97D0D8471F78EF42007DE08A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				97D0D8461F78EF42007DE08A /* HNScraper.app */,
-				97D0D86F1F79400C007DE08A /* HNScraperTests.xctest */,
+				97DA10591F81466300ADF5D8 /* HNScraper.framework */,
+				97DA10611F81466300ADF5D8 /* HNScraperTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -97,7 +93,6 @@
 		97D0D8481F78EF42007DE08A /* HNScraper */ = {
 			isa = PBXGroup;
 			children = (
-				97D0D8491F78EF42007DE08A /* AppDelegate.swift */,
 				97D0D88A1F7E5F4D007DE08A /* Helpers */,
 				97D0D85C1F78EF83007DE08A /* HNComment.swift */,
 				97D0D85E1F78EF83007DE08A /* HNLogin.swift */,
@@ -105,8 +100,6 @@
 				97D0D85F1F78EF83007DE08A /* HNPost.swift */,
 				97D0D8601F78EF83007DE08A /* HNScraper.swift */,
 				97D0D85B1F78EF83007DE08A /* HNUser.swift */,
-				97D0D8501F78EF42007DE08A /* Assets.xcassets */,
-				97D0D8521F78EF42007DE08A /* LaunchScreen.storyboard */,
 				97D0D8551F78EF42007DE08A /* Info.plist */,
 			);
 			path = HNScraper;
@@ -136,40 +129,51 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		97DA10561F81466300ADF5D8 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
-		97D0D8451F78EF42007DE08A /* HNScraper */ = {
+		97DA10581F81466300ADF5D8 /* HNScraper */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 97D0D8581F78EF42007DE08A /* Build configuration list for PBXNativeTarget "HNScraper" */;
+			buildConfigurationList = 97DA106A1F81466400ADF5D8 /* Build configuration list for PBXNativeTarget "HNScraper" */;
 			buildPhases = (
-				97D0D8421F78EF42007DE08A /* Sources */,
-				97D0D8431F78EF42007DE08A /* Frameworks */,
-				97D0D8441F78EF42007DE08A /* Resources */,
+				97DA10541F81466300ADF5D8 /* Sources */,
+				97DA10551F81466300ADF5D8 /* Frameworks */,
+				97DA10561F81466300ADF5D8 /* Headers */,
+				97DA10571F81466300ADF5D8 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = HNScraper;
-			productName = HNScrapper;
-			productReference = 97D0D8461F78EF42007DE08A /* HNScraper.app */;
-			productType = "com.apple.product-type.application";
+			productName = HNScraper;
+			productReference = 97DA10591F81466300ADF5D8 /* HNScraper.framework */;
+			productType = "com.apple.product-type.framework";
 		};
-		97D0D86E1F79400C007DE08A /* HNScraperTests */ = {
+		97DA10601F81466300ADF5D8 /* HNScraperTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 97D0D8761F79400C007DE08A /* Build configuration list for PBXNativeTarget "HNScraperTests" */;
+			buildConfigurationList = 97DA106D1F81466400ADF5D8 /* Build configuration list for PBXNativeTarget "HNScraperTests" */;
 			buildPhases = (
-				97D0D86B1F79400C007DE08A /* Sources */,
-				97D0D86C1F79400C007DE08A /* Frameworks */,
-				97D0D86D1F79400C007DE08A /* Resources */,
+				97DA105D1F81466300ADF5D8 /* Sources */,
+				97DA105E1F81466300ADF5D8 /* Frameworks */,
+				97DA105F1F81466300ADF5D8 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				97D0D8751F79400C007DE08A /* PBXTargetDependency */,
+				97DA10641F81466400ADF5D8 /* PBXTargetDependency */,
 			);
 			name = HNScraperTests;
-			productName = HNScrapperTests;
-			productReference = 97D0D86F1F79400C007DE08A /* HNScraperTests.xctest */;
+			productName = HNScraperTests;
+			productReference = 97DA10611F81466300ADF5D8 /* HNScraperTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -182,14 +186,13 @@
 				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = "Stéphane Sercu";
 				TargetAttributes = {
-					97D0D8451F78EF42007DE08A = {
+					97DA10581F81466300ADF5D8 = {
 						CreatedOnToolsVersion = 9.0;
 						ProvisioningStyle = Automatic;
 					};
-					97D0D86E1F79400C007DE08A = {
+					97DA10601F81466300ADF5D8 = {
 						CreatedOnToolsVersion = 9.0;
 						ProvisioningStyle = Automatic;
-						TestTargetID = 97D0D8451F78EF42007DE08A;
 					};
 				};
 			};
@@ -206,23 +209,21 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				97D0D8451F78EF42007DE08A /* HNScraper */,
-				97D0D86E1F79400C007DE08A /* HNScraperTests */,
+				97DA10581F81466300ADF5D8 /* HNScraper */,
+				97DA10601F81466300ADF5D8 /* HNScraperTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		97D0D8441F78EF42007DE08A /* Resources */ = {
+		97DA10571F81466300ADF5D8 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				97D0D8541F78EF42007DE08A /* LaunchScreen.storyboard in Resources */,
-				97D0D8511F78EF42007DE08A /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		97D0D86D1F79400C007DE08A /* Resources */ = {
+		97DA105F1F81466300ADF5D8 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -232,54 +233,42 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		97D0D8421F78EF42007DE08A /* Sources */ = {
+		97DA10541F81466300ADF5D8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				97D0D8631F78EF83007DE08A /* HNParseConfig.swift in Sources */,
-				97D0D8661F78EF83007DE08A /* HNScraper.swift in Sources */,
-				97D0D8851F7E441D007DE08A /* String+len.swift in Sources */,
-				97D0D84A1F78EF42007DE08A /* AppDelegate.swift in Sources */,
-				97D0D8681F78EFCE007DE08A /* RessourceFetcher.swift in Sources */,
-				97D0D8831F7E440F007DE08A /* Scanner+ScanBetweenString.swift in Sources */,
-				97D0D8641F78EF83007DE08A /* HNLogin.swift in Sources */,
-				97D0D8651F78EF83007DE08A /* HNPost.swift in Sources */,
-				97D0D8611F78EF83007DE08A /* HNUser.swift in Sources */,
-				97D0D8621F78EF83007DE08A /* HNComment.swift in Sources */,
+				97DA10771F81468C00ADF5D8 /* HNScraper.swift in Sources */,
+				97DA10741F81468C00ADF5D8 /* HNLogin.swift in Sources */,
+				97DA10701F81468C00ADF5D8 /* RessourceFetcher.swift in Sources */,
+				97DA10721F81468C00ADF5D8 /* String+len.swift in Sources */,
+				97DA10751F81468C00ADF5D8 /* HNParseConfig.swift in Sources */,
+				97DA10781F81468C00ADF5D8 /* HNUser.swift in Sources */,
+				97DA10761F81468C00ADF5D8 /* HNPost.swift in Sources */,
+				97DA10711F81468C00ADF5D8 /* Scanner+ScanBetweenString.swift in Sources */,
+				97DA10731F81468C00ADF5D8 /* HNComment.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		97D0D86B1F79400C007DE08A /* Sources */ = {
+		97DA105D1F81466300ADF5D8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				97D0D87B1F795291007DE08A /* HNScraperTest.swift in Sources */,
-				97D0D8791F79403D007DE08A /* HNLoginTest.swift in Sources */,
-				97D0D8891F7E464D007DE08A /* RessourceFetcherTest.swift in Sources */,
-				97D0D88C1F7E613D007DE08A /* HNPostTest.swift in Sources */,
+				97DA107B1F8147C100ADF5D8 /* HNPostTest.swift in Sources */,
+				97DA107C1F8147C100ADF5D8 /* RessourceFetcherTest.swift in Sources */,
+				97DA107A1F8147C100ADF5D8 /* HNScraperTest.swift in Sources */,
+				97DA10791F8147C100ADF5D8 /* HNLoginTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		97D0D8751F79400C007DE08A /* PBXTargetDependency */ = {
+		97DA10641F81466400ADF5D8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 97D0D8451F78EF42007DE08A /* HNScraper */;
-			targetProxy = 97D0D8741F79400C007DE08A /* PBXContainerItemProxy */;
+			target = 97DA10581F81466300ADF5D8 /* HNScraper */;
+			targetProxy = 97DA10631F81466400ADF5D8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		97D0D8521F78EF42007DE08A /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				97D0D8531F78EF42007DE08A /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		97D0D8561F78EF42007DE08A /* Debug */ = {
@@ -389,40 +378,58 @@
 			};
 			name = Release;
 		};
-		97D0D8591F78EF42007DE08A /* Debug */ = {
+		97DA106B1F81466400ADF5D8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 5P2WT92MAV;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = HNScraper/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = StephSercu.HNScraper;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
 		};
-		97D0D85A1F78EF42007DE08A /* Release */ = {
+		97DA106C1F81466400ADF5D8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 5P2WT92MAV;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = HNScraper/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = StephSercu.HNScraper;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
 		};
-		97D0D8771F79400C007DE08A /* Debug */ = {
+		97DA106E1F81466400ADF5D8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5P2WT92MAV;
 				INFOPLIST_FILE = HNScraperTests/Info.plist;
@@ -431,14 +438,13 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HNScraper.app/HNScraper";
 			};
 			name = Debug;
 		};
-		97D0D8781F79400C007DE08A /* Release */ = {
+		97DA106F1F81466400ADF5D8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5P2WT92MAV;
 				INFOPLIST_FILE = HNScraperTests/Info.plist;
@@ -447,7 +453,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HNScraper.app/HNScraper";
 			};
 			name = Release;
 		};
@@ -463,20 +468,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		97D0D8581F78EF42007DE08A /* Build configuration list for PBXNativeTarget "HNScraper" */ = {
+		97DA106A1F81466400ADF5D8 /* Build configuration list for PBXNativeTarget "HNScraper" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				97D0D8591F78EF42007DE08A /* Debug */,
-				97D0D85A1F78EF42007DE08A /* Release */,
+				97DA106B1F81466400ADF5D8 /* Debug */,
+				97DA106C1F81466400ADF5D8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		97D0D8761F79400C007DE08A /* Build configuration list for PBXNativeTarget "HNScraperTests" */ = {
+		97DA106D1F81466400ADF5D8 /* Build configuration list for PBXNativeTarget "HNScraperTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				97D0D8771F79400C007DE08A /* Debug */,
-				97D0D8781F79400C007DE08A /* Release */,
+				97DA106E1F81466400ADF5D8 /* Debug */,
+				97DA106F1F81466400ADF5D8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

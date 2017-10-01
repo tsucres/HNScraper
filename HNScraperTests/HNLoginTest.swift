@@ -30,6 +30,7 @@ class HNLoginTest: XCTestCase {
         for cookie in cookieStore.cookies ?? [] {
             cookieStore.deleteCookie(cookie)
         }
+        HNLogin.shared.logout()
     }
     
     func testGoodLogin() {
