@@ -12,7 +12,7 @@ Scraper for hackernews written in swift. Supports grabbing posts, comments & use
   s.author           = { 'Stéphane Sercu' => 'stefsercu@gmail.com' }
   s.source           = { :git => 'https://github.com/tsucres/HNScraper.git', :tag => s.version.to_s }
  
-  s.ios.deployment_target = '10.0'
+  s.ios.deployment_target = '9.0'
   s.source_files = 'HNScraper/**/*.swift'
  
 end

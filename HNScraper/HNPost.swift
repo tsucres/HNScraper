@@ -51,8 +51,6 @@ public class HNPost {
     public var upvoteAdditionURL: String?
     
     public var favorited: Bool = false
-    public var bookmarked: Bool = false
-    public var readOn: Date?
     
     public var replyAction: String?
     public var replyParent: String?
