@@ -132,6 +132,7 @@ public class HNPost {
             self.type = .jobs
             if self.url != nil && !self.url!.absoluteString.contains("http") {
                 self.id = self.url!.absoluteString.replacingOccurrences(of: "item?id=", with: "")
+                self.url = URL(string: "https://news.ycombinator.com/" + self.url!.absoluteString)!
             }
         }
         else {

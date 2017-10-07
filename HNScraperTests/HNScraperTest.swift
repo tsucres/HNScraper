@@ -218,7 +218,7 @@ class HNScraperTest: XCTestCase {
         })
         wait(for: [exp], timeout: HNScraperTest.defaultTimeOut)
     }
-    
+
     func testGet90ItemsFromHomePage() {
         let exp = expectation(description: "get 90 items")
         HNScraper.shared.getPostsList(page: .news) { (posts, linkForMore, error) in
@@ -321,10 +321,5 @@ class HNScraperTest: XCTestCase {
             exp.fulfill()
         }
         wait(for: [exp], timeout: HNScraperTest.defaultTimeOut)
-    }
-    
-    
-    
-    
-    
+    }    
 }
