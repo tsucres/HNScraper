@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class BaseComment {
+open class BaseComment {
     public var replies: [BaseComment]! = []
     public var level: Int! = 0
     public weak var replyTo: BaseComment?
@@ -26,7 +26,7 @@ public class BaseComment {
     
 }
 
-public class HNComment: BaseComment {
+open class HNComment: BaseComment {
     public convenience init() {
         self.init(level: 0, replyTo: nil)
     }

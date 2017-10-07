@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class HNUser {
+open class HNUser {
     public var username: String!
     public var karma: Int!
     public var age: Date!

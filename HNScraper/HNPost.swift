@@ -10,7 +10,7 @@ import Foundation
 
 
 /// Model used by the HN Scraper to store avery data about a post.
-public class HNPost {
+open class HNPost {
     public enum PostType {
         case defaultType
         case askHN
