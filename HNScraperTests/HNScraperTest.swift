@@ -243,6 +243,22 @@ class HNScraperTest: XCTestCase {
         })
         wait(for: [exp], timeout: HNScraperTest.defaultTimeOut)
     }
+    
+    func testGetAskHN() { // TODO: test askHN comment parsing
+        let exp = expectation(description: "get 30 items")
+        HNScraper.shared.getPostsList(page: .asks, completion: {(posts, linkForMore, error) -> Void in
+            XCTAssertEqual(posts.count, 30)
+            XCTAssertNotNil(linkForMore)
+            XCTAssertNil(error)
+            HNScraper.shared.getComments(ForPost: posts[0], completion: { (post, comments, error) in
+                print(comments[0].text) // TODO: bad testing
+                exp.fulfill()
+            })
+            
+            
+        })
+        wait(for: [exp], timeout: HNScraperTest.defaultTimeOut)
+    }
 
     func testGet90ItemsFromHomePage() {
         let exp = expectation(description: "get 90 items")

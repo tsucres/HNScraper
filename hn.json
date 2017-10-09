@@ -119,8 +119,8 @@
 			"E": "\"",
 			"I": "CommentId"
 		}, {
-			"S": "</td><td>",
-			"E": "</td></tr>",
+			"S": "</tr>\n      <tr style=\"height:2px\"></tr><tr><td colspan=\"2\"></td><td>",
+			"E": "</td></tr>\n        <tr style=\"height:10px\"></tr><tr><td colspan=\"2\"></td><td>\n          <form",
 			"I": "Text"
 		}],
 		"JOBS": [{
