@@ -151,7 +151,14 @@ class HNScraperLoginNeededTest: XCTestCase {
                 XCTAssertGreaterThan(comments.count, 0)
                 HNScraper.shared.upvote(Comment: comments[0], completion: { (error) in
                     XCTAssertNil(error)
-                    exp.fulfill()
+                    HNScraper.shared.getComments(ForPost: post) { (post, comments, error) in
+                        XCTAssertNil(error)
+                        XCTAssertGreaterThan(comments.count, 0)
+                        XCTAssertTrue(comments[0].upvoted)
+                        exp.fulfill()
+                    }
+                    
+                    
                 })
             }
         }

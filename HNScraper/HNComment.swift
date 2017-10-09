@@ -50,6 +50,7 @@ open class HNComment: BaseComment {
     public var links: [String]! = []
     public var upvoteUrl: String! = ""
     public var downvoteUrl: String! = ""
+    public var upvoted: Bool = false
     
     
     public convenience init?(fromHtml html: String, withParsingConfig parseConfig: [String : Any], levelOffset: Int = 0) {
@@ -111,6 +112,9 @@ open class HNComment: BaseComment {
         self.created = cDict["Time"] as? String ?? ""
         self.replyUrl = cDict["ReplyUrl"] as? String ?? ""
         
+        if self.id != "" && html.contains("<a id=\'un_\(self.id!)") {
+            self.upvoted = true
+        }
         
         
     }
