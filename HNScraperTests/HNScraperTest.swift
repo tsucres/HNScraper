@@ -159,6 +159,24 @@ class HNScraperLoginNeededTest: XCTestCase {
         wait(for: [exp], timeout: 2*HNScraperTest.defaultTimeOut)
     }
     
+    // TODO
+    /// tests that the favorited attribute is correctly filled when parsing a post from the home page.
+    /*func testFavoritedAttribute() {
+        let exp = expectation(description: "the retrieved post has favorited=true")
+        getFirstPost(completion: {(post) -> Void in
+            HNScraper.shared.favorite(Post: post!, completion: {(error) -> Void in
+                XCTAssertNil(error)
+                self.getFirstPost(completion: { (post) in
+                    XCTAssertNotNil(post?.favorited)
+                    XCTAssertTrue((post?.favorited)!)
+                    exp.fulfill()
+                })
+                
+            })
+        })
+        wait(for: [exp], timeout: 2*HNScraperTest.defaultTimeOut)
+    }*/
+    
     func testHasLoggedInUserVotedOnPost() {
         
     }

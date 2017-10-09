@@ -50,7 +50,7 @@ open class HNPost {
     public var upvoted: Bool = false
     public var upvoteAdditionURL: String?
     
-    public var favorited: Bool = false
+    public var favorited: Bool = false // TODO: there's no way to know from a "list page", but it could be filled from the discussion thread.
     
     public var replyAction: String?
     public var replyParent: String?
@@ -112,7 +112,7 @@ open class HNPost {
         self.username = postDict["Username"] as? String ?? ""
         self.id = postDict["PostId"] as? String ?? ""
         self.time = postDict["Time"] as? String ?? ""
-        if self.id != "" && html.contains("un_"+self.id) {
+        if self.id != "" && html.contains("<a id='un_\(self.id)") {
             self.upvoted = true
         }
         
