@@ -24,6 +24,7 @@ public class HNLogin {
     }
     private init() {
         if let cookie = self.retrieveSessionCookie() {
+            self._sessionCookie = cookie
             self.getUsernameFromCookie(cookie, completion: {(user, cookie, error) -> Void in
                 if cookie != nil {
                     self._user = user
