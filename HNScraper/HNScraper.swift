@@ -277,6 +277,10 @@ public class HNScraper {
         self.getPostsList(url: HNScraper.baseUrl + linkForMore, completion: completionHandler)
     }
     
+    public func getMoreComments(linkForMore: String, completionHandler: @escaping (([HNComment], String?, HNScraperError?) -> Void)) {
+        self.getComments(FromURl: HNScraper.baseUrl + linkForMore, completion: completionHandler)
+    }
+    
     /**
      *  Parse the last part of the html page of the posts/coments list to find the link to the next page.
      *  - parameters:
@@ -381,6 +385,19 @@ public class HNScraper {
     /// - Note: this is an alias for the method `getPost(ById:buildHierarchy:completion)`
     public func getComments(ByPostId postId: String, buildHierarchy: Bool = true, completion: @escaping ((HNPost?, [HNComment], HNScraperError?) -> Void)) {
         self.getPost(ById: postId, buildHierarchy: buildHierarchy, completion: completion)
+    }
+    
+    private func getComments(FromURl url: String, buildHierarchy: Bool = true, completion: @escaping (([HNComment], String?, HNScraperError?) -> Void)) {
+        getHtmlAndParsingConfig(url: url, completion: { html, error -> Void in
+            if html == nil {
+                completion([], nil, error ?? .noData)
+                return
+            }
+            self.commentsHtmlToBeParsed = html
+            self.parseDownloadedComments(ForPost: HNPost(), buildHierarchy: buildHierarchy, completion: {(post, comments, linkForMore, error) in
+                completion(comments, linkForMore, error)
+            })
+        })
     }
     
     /**
@@ -575,12 +592,17 @@ public class HNScraper {
      */
     public func getComments(ForUserWithUsername username: String, completion: @escaping (([HNComment], String?, HNScraperError?) -> Void)) {
         let url = HNScraper.baseUrl + "threads?id=\(username)"
+        getComments(FromURl: url, completion: completion)/*
         getHtmlAndParsingConfig(url: url, completion: { html, error -> Void in
+            if html == nil {
+                completion([], nil, error ?? .noData)
+                return
+            }
             self.commentsHtmlToBeParsed = html
             self.parseDownloadedComments(ForPost: HNPost(), completion: { (post, comments, linkForMore, error) in
                 completion(comments, linkForMore, error)
             })
-        })
+        })*/
      } // TODO
     
     // ==================================================
