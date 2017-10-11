@@ -97,7 +97,6 @@
 			"E": "\">",
 			"I": "Level"
 		},
-
 		"ASK": [{
 			"S": "class=\"storylink\">",
 			"E": "</a>",
@@ -141,6 +140,10 @@
 			"E": "<",
 			"I": "Time"
 		}, {
+			"S": "on: <a href=\"item?id=",
+			"E": "\">",
+			"I": "ParentPostId"
+		}, {
 			"S": "class=\"comment\">",
 			"E": "class=\"c",
 			"I": "TRASH"
@@ -152,7 +155,11 @@
 			"S": "href=\"",
 			"E": "\"",
 			"I": "ReplyUrl"
-		}]
+		}],
+		"LinkForMore": {
+			"S": "</td><td class=\"title\"><a href=\"",
+			"E": "\" class=\"morelink\""
+		}
 	},
 	"Reply": {
 		"Action": "comment",

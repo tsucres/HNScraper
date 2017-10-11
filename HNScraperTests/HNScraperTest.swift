@@ -362,5 +362,16 @@ class HNScraperTest: XCTestCase {
             exp.fulfill()
         }
         wait(for: [exp], timeout: HNScraperTest.defaultTimeOut)
-    }    
+    }
+    
+    func testGetCommentsForUser() {
+        let exp = expectation(description: "Get some comments with parentId filled")
+        HNScraper.shared.getComments(ForUserWithUsername: "yoda_sl") { (comments, linkForMore, error) in
+            XCTAssertNil(error)
+            XCTAssertGreaterThan(comments.count, 0)
+            XCTAssertNotNil(linkForMore)
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: HNScraperTest.defaultTimeOut)
+    }
 }

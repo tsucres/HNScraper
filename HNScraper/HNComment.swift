@@ -44,7 +44,7 @@ open class HNComment: BaseComment {
     public var text: String! = ""
     public var id: String! = ""
     public var username: String! = "anonymous"
-    public var parentId: Int! = -1
+    public var parentId: String?
     public var created: String! = ""
     public var replyUrl: String! = ""
     public var links: [String]! = []
@@ -110,6 +110,7 @@ open class HNComment: BaseComment {
         self.text = cDict["Text"] as? String ?? ""
         self.username = cDict["Username"] as? String ?? ""
         self.created = cDict["Time"] as? String ?? ""
+        self.parentId = cDict["ParentPostId"] as? String
         self.replyUrl = cDict["ReplyUrl"] as? String ?? ""
         
         if self.id != "" && html.contains("<a id=\'un_\(self.id!)") {
