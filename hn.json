@@ -97,6 +97,11 @@
 			"E": "\">",
 			"I": "Level"
 		},
+		"ParentPostId": {
+			"S": "on: <a href=\"item?id=",
+			"E": "\">",
+			"I": "ParentPostId"
+		},
 		"ASK": [{
 			"S": "class=\"storylink\">",
 			"E": "</a>",
@@ -139,10 +144,6 @@
 			"S": ">",
 			"E": "<",
 			"I": "Time"
-		}, {
-			"S": "on: <a href=\"item?id=",
-			"E": "\">",
-			"I": "ParentPostId"
 		}, {
 			"S": "class=\"comment\">",
 			"E": "class=\"c",

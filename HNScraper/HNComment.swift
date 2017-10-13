@@ -64,6 +64,7 @@ open class HNComment: BaseComment {
         var upvoteString: NSString? = ""
         let downvoteString: NSString? = ""
         var level: NSString? = ""
+        var parentPostId: NSString? = ""
         var cDict: [String : Any] = [:]
         
         
@@ -73,6 +74,12 @@ open class HNComment: BaseComment {
             self.level = Int(level!.intValue) / 40 + levelOffset // TODO: add this constant in the parseConfig
         } else {
             self.level = levelOffset
+        }
+        
+        // Get parentPostId (only if the comment comes from the list of comment ssubmited by a user).
+        scanner.scanBetweenString(stringA: (commentDict!["ParentPostId"] as! [String: String])["S"]!, stringB: (commentDict!["ParentPostId"] as! [String: String])["E"]!, into: &parentPostId)
+        if (parentPostId != nil) {
+            self.parentId = (parentPostId as String?) ?? ""
         }
         
         
@@ -100,6 +107,7 @@ open class HNComment: BaseComment {
         for dict in regs {
             var new: NSString? = ""
             let isTrash = dict["I"] as! String == "TRASH"
+            
             scanner.scanBetweenString(stringA: dict["S"] as! String, stringB: dict["E"] as! String, into: &new)
             if (!isTrash && (new?.length)! > 0) {
                 cDict[dict["I"] as! String] = new
@@ -110,7 +118,6 @@ open class HNComment: BaseComment {
         self.text = cDict["Text"] as? String ?? ""
         self.username = cDict["Username"] as? String ?? ""
         self.created = cDict["Time"] as? String ?? ""
-        self.parentId = cDict["ParentPostId"] as? String
         self.replyUrl = cDict["ReplyUrl"] as? String ?? ""
         
         if self.id != "" && html.contains("<a id=\'un_\(self.id!)") {

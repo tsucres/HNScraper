@@ -199,7 +199,7 @@ class HNScraperLoginNeededTest: XCTestCase {
             XCTAssertNotEqual(user!.aboutInfo!, "")
             exp.fulfill()
         })
-        wait(for: [exp], timeout: 100*HNScraperTest.defaultTimeOut)
+        wait(for: [exp], timeout: HNScraperTest.defaultTimeOut)
     }
 }
 class HNScraperTest: XCTestCase {
@@ -251,6 +251,10 @@ class HNScraperTest: XCTestCase {
             XCTAssertNotNil(linkForMore)
             XCTAssertNil(error)
             HNScraper.shared.getComments(ForPost: posts[0], completion: { (post, comments, error) in
+                XCTAssertNil(error)
+                XCTAssertGreaterThan(comments.count, 0)
+                XCTAssertGreaterThan(comments[0].text.characters.count, 0)
+                XCTAssertGreaterThan(comments[0].username.characters.count, 0)
                 print(comments[0].text) // TODO: bad testing
                 exp.fulfill()
             })
@@ -350,6 +354,8 @@ class HNScraperTest: XCTestCase {
         HNScraper.shared.getComments(ByPostId: HNScraperTest.validPostId) { (post, comments, error) in
             XCTAssertNil(error)
             XCTAssertGreaterThan(comments.count, 0)
+            XCTAssertGreaterThan(comments[0].text.characters.count, 0)
+            XCTAssertGreaterThan(comments[0].username.characters.count, 0)
             exp.fulfill()
         }
         wait(for: [exp], timeout: HNScraperTest.defaultTimeOut)
@@ -370,6 +376,9 @@ class HNScraperTest: XCTestCase {
             XCTAssertNil(error)
             XCTAssertGreaterThan(comments.count, 0)
             XCTAssertNotNil(linkForMore)
+            XCTAssertNotEqual(comments[0].parentId, "")
+            XCTAssertGreaterThan(comments[0].text.characters.count, 0)
+            XCTAssertGreaterThan(comments[0].username.characters.count, 0)
             exp.fulfill()
         }
         wait(for: [exp], timeout: HNScraperTest.defaultTimeOut)
