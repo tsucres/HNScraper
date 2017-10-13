@@ -120,7 +120,7 @@ open class HNComment: BaseComment {
         self.created = cDict["Time"] as? String ?? ""
         self.replyUrl = cDict["ReplyUrl"] as? String ?? ""
         
-        if self.id != "" && html.contains("<a id=\'un_\(self.id!)") {
+        if self.id != "" && html.contains("<a id=\'un_\(self.id!)") { // TODO: put that in the configFie
             self.upvoted = true
         }
         

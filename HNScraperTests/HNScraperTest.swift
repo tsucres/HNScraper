@@ -246,22 +246,17 @@ class HNScraperTest: XCTestCase {
     
     func testGetAskHN() { // TODO: test askHN comment parsing
         let exp = expectation(description: "get 30 items")
-        HNScraper.shared.getPostsList(page: .asks, completion: {(posts, linkForMore, error) -> Void in
-            XCTAssertEqual(posts.count, 30)
-            XCTAssertNotNil(linkForMore)
+        HNScraper.shared.getComments(ByPostId: "15465252") { (post, comments, error) in
             XCTAssertNil(error)
-            HNScraper.shared.getComments(ForPost: posts[0], completion: { (post, comments, error) in
-                XCTAssertNil(error)
-                XCTAssertGreaterThan(comments.count, 0)
-                XCTAssertGreaterThan(comments[0].text.characters.count, 0)
-                XCTAssertGreaterThan(comments[0].username.characters.count, 0)
-                print(comments[0].text) // TODO: bad testing
-                exp.fulfill()
-            })
-            
-            
-        })
-        wait(for: [exp], timeout: HNScraperTest.defaultTimeOut)
+            XCTAssertEqual(comments.count, 1)
+            XCTAssertGreaterThan(comments[0].text.characters.count, 0)
+            XCTAssertGreaterThan(comments[0].username.characters.count, 0)
+            XCTAssertGreaterThan((comments[0].replies[0] as! HNComment).text.characters.count, 0)
+            XCTAssertGreaterThan((comments[0].replies[0] as! HNComment).username.characters.count, 0)
+            exp.fulfill()
+        }
+        
+        wait(for: [exp], timeout: 100*HNScraperTest.defaultTimeOut)
     }
 
     func testGet90ItemsFromHomePage() {
