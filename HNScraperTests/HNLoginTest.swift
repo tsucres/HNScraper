@@ -36,13 +36,20 @@ class HNLoginTest: XCTestCase {
     func testGoodLogin() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
-        let exp = expectation(description: "Correct login")
+        let exp = expectation(description: "Correct login with abdurhtl")
         HNLogin.shared.login(username: "abdurhtl", psw: "!Bullshit?Psw$", completion: {(user, cookie, error) -> Void in
             XCTAssertNotNil(cookie)
             XCTAssertEqual(user?.username, "abdurhtl")
             exp.fulfill()
         })
-        wait(for: [exp], timeout: HNScraperTest.defaultTimeOut)
+        let exp2 = expectation(description: "Correct login with testHNScrapper")
+        HNLogin.shared.login(username: "testHNScrapper", psw: "&$!?èé%`ç\"'-some_thing", completion: {(user, cookie, error) -> Void in
+            XCTAssertNotNil(cookie)
+            XCTAssertEqual(user?.username, "testHNScrapper")
+            exp2.fulfill()
+        })
+        
+        wait(for: [exp, exp2], timeout: HNScraperTest.defaultTimeOut)
     }
     
     func testBadPasswordLogin() {

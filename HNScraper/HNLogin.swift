@@ -87,7 +87,7 @@ public class HNLogin {
      */
     public func login(username: String, psw: String, completion: @escaping ((HNUser?, HTTPCookie?, HNLoginError?) -> Void)) {
         let url = HNScraper.baseUrl + "login"
-        let encodedPass = psw.addingPercentEncoding(withAllowedCharacters: CharacterSet(charactersIn: "!*'();:@&=+$,/?%#[]"))
+        let encodedPass = psw.addingPercentEncoding(withAllowedCharacters: CharacterSet(charactersIn: "!*'();:@&=+$,/?%#[]").inverted)
         let bodyString = "acct=\(username)&pw=\(encodedPass!)&whence=news"
         guard let bodyData = bodyString.data(using: .utf8) else {
             completion(nil, nil, .badCredentials)
