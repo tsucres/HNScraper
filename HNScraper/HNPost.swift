@@ -37,7 +37,7 @@ open class HNPost {
             }
             var dom: String? = self.url!.host
             if dom != nil && dom!.hasPrefix("www.") {
-                dom = String(dom!.characters.dropFirst(4))
+                dom = String(dom!.dropFirst(4))
             }
             return dom ?? ""
         }
@@ -130,7 +130,7 @@ open class HNPost {
         }
         
         // Check if Jobs Post
-        if (self.id.characters.count == 0 && self.points == 0 && self.username.characters.count == 0) {
+        if (self.id.count == 0 && self.points == 0 && self.username.count == 0) {
             self.type = .jobs
             if self.url != nil && !self.url!.absoluteString.contains("http") {
                 self.id = self.url!.absoluteString.replacingOccurrences(of: "item?id=", with: "")
@@ -139,7 +139,7 @@ open class HNPost {
         }
         else {
             // Check if AskHN
-            if self.url != nil && !self.url!.absoluteString.contains("http") && self.id.length > 0 {
+            if self.url != nil && !self.url!.absoluteString.contains("http") && self.id.count > 0 {
                 self.type = .askHN
                 self.url = URL(string: "https://news.ycombinator.com/" + self.url!.absoluteString)!
             }

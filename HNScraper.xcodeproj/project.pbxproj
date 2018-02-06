@@ -10,7 +10,6 @@
 		97DA10621F81466400ADF5D8 /* HNScraper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97DA10591F81466300ADF5D8 /* HNScraper.framework */; };
 		97DA10701F81468C00ADF5D8 /* RessourceFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0D8671F78EFCE007DE08A /* RessourceFetcher.swift */; };
 		97DA10711F81468C00ADF5D8 /* Scanner+ScanBetweenString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0D8821F7E440F007DE08A /* Scanner+ScanBetweenString.swift */; };
-		97DA10721F81468C00ADF5D8 /* String+len.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0D8841F7E441D007DE08A /* String+len.swift */; };
 		97DA10731F81468C00ADF5D8 /* HNComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0D85C1F78EF83007DE08A /* HNComment.swift */; };
 		97DA10741F81468C00ADF5D8 /* HNLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0D85E1F78EF83007DE08A /* HNLogin.swift */; };
 		97DA10751F81468C00ADF5D8 /* HNParseConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0D85D1F78EF83007DE08A /* HNParseConfig.swift */; };
@@ -46,7 +45,6 @@
 		97D0D8731F79400C007DE08A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		97D0D87A1F795291007DE08A /* HNScraperTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HNScraperTest.swift; sourceTree = "<group>"; };
 		97D0D8821F7E440F007DE08A /* Scanner+ScanBetweenString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Scanner+ScanBetweenString.swift"; sourceTree = "<group>"; };
-		97D0D8841F7E441D007DE08A /* String+len.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+len.swift"; sourceTree = "<group>"; };
 		97D0D8881F7E464D007DE08A /* RessourceFetcherTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RessourceFetcherTest.swift; sourceTree = "<group>"; };
 		97D0D88B1F7E613D007DE08A /* HNPostTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HNPostTest.swift; sourceTree = "<group>"; };
 		97DA10591F81466300ADF5D8 /* HNScraper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HNScraper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -122,7 +120,6 @@
 			children = (
 				97D0D8671F78EFCE007DE08A /* RessourceFetcher.swift */,
 				97D0D8821F7E440F007DE08A /* Scanner+ScanBetweenString.swift */,
-				97D0D8841F7E441D007DE08A /* String+len.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -240,7 +237,6 @@
 				97DA10771F81468C00ADF5D8 /* HNScraper.swift in Sources */,
 				97DA10741F81468C00ADF5D8 /* HNLogin.swift in Sources */,
 				97DA10701F81468C00ADF5D8 /* RessourceFetcher.swift in Sources */,
-				97DA10721F81468C00ADF5D8 /* String+len.swift in Sources */,
 				97DA10751F81468C00ADF5D8 /* HNParseConfig.swift in Sources */,
 				97DA10781F81468C00ADF5D8 /* HNUser.swift in Sources */,
 				97DA10761F81468C00ADF5D8 /* HNPost.swift in Sources */,

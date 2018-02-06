@@ -193,7 +193,7 @@ class HNScraperLoginNeededTest: XCTestCase {
         let exp = expectation(description: "get a entirely filled HNUser instance")
         HNScraper.shared.getUserFrom(Username: HNScraperTest.validFilledUsername, completion: { (user, error) in
             XCTAssertEqual(user?.username, HNScraperTest.validFilledUsername)
-            XCTAssertEqual(String(String(describing: user!.age!).characters.prefix(7)), "2010-08")
+            XCTAssertEqual(String(describing: user!.age!).prefix(7), "2010-08")
             XCTAssertNotEqual(user?.karma, 0)
             XCTAssertNotNil(user?.aboutInfo)
             XCTAssertNotEqual(user!.aboutInfo!, "")
@@ -249,10 +249,10 @@ class HNScraperTest: XCTestCase {
         HNScraper.shared.getComments(ByPostId: "15465252") { (post, comments, error) in
             XCTAssertNil(error)
             XCTAssertEqual(comments.count, 1)
-            XCTAssertGreaterThan(comments[0].text.characters.count, 0)
-            XCTAssertGreaterThan(comments[0].username.characters.count, 0)
-            XCTAssertGreaterThan((comments[0].replies[0] as! HNComment).text.characters.count, 0)
-            XCTAssertGreaterThan((comments[0].replies[0] as! HNComment).username.characters.count, 0)
+            XCTAssertGreaterThan(comments[0].text.count, 0)
+            XCTAssertGreaterThan(comments[0].username.count, 0)
+            XCTAssertGreaterThan((comments[0].replies[0] as! HNComment).text.count, 0)
+            XCTAssertGreaterThan((comments[0].replies[0] as! HNComment).username.count, 0)
             exp.fulfill()
         }
         
@@ -318,7 +318,7 @@ class HNScraperTest: XCTestCase {
         HNLogin.shared.logout()
         HNScraper.shared.getUserFrom(Username: HNScraperTest.validFilledUsername, completion: { (user, error) in
             XCTAssertEqual(user?.username, HNScraperTest.validFilledUsername)
-            XCTAssertEqual(String(String(describing: user!.age!).characters.prefix(7)), "2010-08")
+            XCTAssertEqual(String(String(describing: user!.age!).prefix(7)), "2010-08")
             XCTAssertNotEqual(user?.karma, 0)
             XCTAssertNotNil(user?.aboutInfo)
             XCTAssertNotEqual(user!.aboutInfo!, "")
@@ -349,8 +349,8 @@ class HNScraperTest: XCTestCase {
         HNScraper.shared.getComments(ByPostId: HNScraperTest.validPostId) { (post, comments, error) in
             XCTAssertNil(error)
             XCTAssertGreaterThan(comments.count, 0)
-            XCTAssertGreaterThan(comments[0].text.characters.count, 0)
-            XCTAssertGreaterThan(comments[0].username.characters.count, 0)
+            XCTAssertGreaterThan(comments[0].text.count, 0)
+            XCTAssertGreaterThan(comments[0].username.count, 0)
             exp.fulfill()
         }
         wait(for: [exp], timeout: HNScraperTest.defaultTimeOut)
@@ -372,8 +372,8 @@ class HNScraperTest: XCTestCase {
             XCTAssertGreaterThan(comments.count, 0)
             XCTAssertNotNil(linkForMore)
             XCTAssertNotEqual(comments[0].parentId, "")
-            XCTAssertGreaterThan(comments[0].text.characters.count, 0)
-            XCTAssertGreaterThan(comments[0].username.characters.count, 0)
+            XCTAssertGreaterThan(comments[0].text.count, 0)
+            XCTAssertGreaterThan(comments[0].username.count, 0)
             exp.fulfill()
         }
         wait(for: [exp], timeout: HNScraperTest.defaultTimeOut)

@@ -65,7 +65,7 @@ open class HNComment: BaseComment {
         var upvoteString: NSString?
         let downvoteString: NSString? = ""
         var level: NSString? = ""
-        var parentPostId: NSString? = ""
+        //var parentPostId: NSString? = ""
         var cDict: [String : Any] = [:]
         
         
