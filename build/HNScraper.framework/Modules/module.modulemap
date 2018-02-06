@@ -1,4 +1,0 @@
-framework module HNScraper {
-    header "HNScraper-Swift.h"
-    requires objc
-}

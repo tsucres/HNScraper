@@ -44,6 +44,7 @@ open class HNComment: BaseComment {
     public var text: String! = ""
     public var id: String! = ""
     public var username: String! = "anonymous"
+    public var isOPNoob: Bool! = false
     public var parentId: String?
     public var created: String! = ""
     public var replyUrl: String! = ""
@@ -61,7 +62,7 @@ open class HNComment: BaseComment {
         }
         
         let scanner = Scanner(string: html)
-        var upvoteString: NSString? = ""
+        var upvoteString: NSString?
         let downvoteString: NSString? = ""
         var level: NSString? = ""
         var parentPostId: NSString? = ""
@@ -76,11 +77,12 @@ open class HNComment: BaseComment {
             self.level = levelOffset
         }
         
+        // Parent isn't in the html anymore... it's parsable in the upvote/reply url...
         // Get parentPostId (only if the comment comes from the list of comment ssubmited by a user).
-        scanner.scanBetweenString(stringA: (commentDict!["ParentPostId"] as! [String: String])["S"]!, stringB: (commentDict!["ParentPostId"] as! [String: String])["E"]!, into: &parentPostId)
+        /*scanner.scanBetweenString(stringA: (commentDict!["ParentPostId"] as! [String: String])["S"]!, stringB: (commentDict!["ParentPostId"] as! [String: String])["E"]!, into: &parentPostId)
         if (parentPostId != nil) {
             self.parentId = (parentPostId as String?) ?? ""
-        }
+        }*/
         
         
         
@@ -117,6 +119,7 @@ open class HNComment: BaseComment {
         self.id = cDict["CommentId"] as? String ?? ""
         self.text = cDict["Text"] as? String ?? ""
         self.username = cDict["Username"] as? String ?? ""
+        self.isOPNoob = HNUser.cleanNoobUsername(username: &(self.username!))
         self.created = cDict["Time"] as? String ?? ""
         self.replyUrl = cDict["ReplyUrl"] as? String ?? ""
         
@@ -157,6 +160,7 @@ open class HNComment: BaseComment {
         let newComment = HNComment()
         newComment.level = 0
         newComment.username = cDict["Username"] as? String ?? ""
+        newComment.isOPNoob = HNUser.cleanNoobUsername(username: &(newComment.username!))
         newComment.created = cDict["Time"] as? String ?? ""
         newComment.text = cDict["Text"] as? String ?? ""
         //newComment.links = ...

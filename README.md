@@ -1,5 +1,16 @@
 # HNScraper
 
+<p align="center">
+    <a href="https://travis-ci.org/tsucres/HNScraper">
+      <img src="https://img.shields.io/travis/tsucres/HNScraper.svg">
+    </a>
+    <img src="https://img.shields.io/badge/Swift-4.0-orange.svg" />
+    <a href="https://opensource.org/licenses/MIT">
+      <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License" />
+    </a>
+</p>
+
+
 HNScraper is a scraping library for hackernews, written in swift. It allows you to fetch all the stories, comments and user informations directly from the website. It also supports logging in and vote on/favorite posts and comments.
 
 This library is similar to the [LibHN](https://github.com/bennyguitar/libHN) library. Actually, some parts of the project, such as the post, comment and user models and the parsing rules are basically a swift translation of the LibHN library.
@@ -44,13 +55,6 @@ Run `pod install` in your project's folder.
 
 Then just add `import HNScraper` wherever you need the scraper.
 
-#### Framework
-
-In your app's target's **General** tab, click on the **+** button under he section **Embedded Binaries**, click on **Add Others...**  and select the file `HNScraper.framework` (that you'll find in the `build` folder). Ensure to check the option **Copy items if needed** when you import the file.
-
-
-Once you have imported the framework in your project, just add `import HNScrapper` where you want to use the scraper.
-
 
 #### Manually
 
@@ -69,7 +73,7 @@ The possible errors are defined by `HNScrapperError ` and `HNLoginError `. Those
 
 
 ### Fetch list of posts
-A list of post is any of the HN pages defined in `HNScraper.PostListPageName`
+A list of posts is any of the HN pages defined in `HNScraper.PostListPageName`
 
 [`news`](https://news.ycombinator.com/news)
 [`front`](https://news.ycombinator.com/front)
@@ -251,7 +255,7 @@ Again, the user needs to be logged in, otherwise an error of type `.notLoggedIn`
 
 The scraper uses 3 models: 
 
-* `HNPost` : 
+* `HNPost`
 * `HNComment`
 * `HNUser`
 
@@ -293,7 +297,6 @@ Also, I'm not a native English speaker, so don't hesitate to correct some of my 
 - Downvote
 - Edit account (about, options, mail, ...)
 - Search
-- Noob users
 - Test for mac os apps
 
 

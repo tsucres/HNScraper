@@ -51,11 +51,14 @@ open class HNUser {
                 scanner.scanBetweenString(stringA: start, stringB: end, into: &new)
                 if (!isTrash && (new?.length)! > 0) {
                     if dict["I"] as! String == "user" {
-                        if new!.contains("<font color=\"#3c963c\">") {
+                        var newStr: String = String(describing: new!)
+                        isNoob = HNUser.cleanNoobUsername(username: &(newStr))
+                        new = newStr as NSString
+                        /*if new!.contains("<font color=\"#3c963c\">") {
                             new = new!.replacingOccurrences(of: "<font color=\"#3c963c\">", with: "") as NSString
                             new = new!.replacingOccurrences(of: "</font>", with: "") as NSString
                             isNoob = true
-                        }
+                        }*/
                     }
                     uDict[dict["I"] as! String] = new
                 }
@@ -67,6 +70,15 @@ open class HNUser {
         }
         self.init(username: uDict["user"]  as! String, karma: uDict["karma"] as? String ?? "", age: uDict["age"] as? String ?? "", aboutInfo: uDict["about"] as? String, isNoob: isNoob)
         
+    }
+    
+    public static func cleanNoobUsername(username: inout String) -> Bool {
+        if username.contains("<font color=\"#3c963c\">") {
+            username = username.replacingOccurrences(of: "<font color=\"#3c963c\">", with: "")
+            username = username.replacingOccurrences(of: "</font>", with: "")
+            return true
+        }
+        return false
     }
     
     /// Converts the number of days from current date to a Date instance.

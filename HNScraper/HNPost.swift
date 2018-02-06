@@ -28,6 +28,7 @@ open class HNPost {
     
     public var type: PostType = .defaultType
     public var username: String = ""
+    public var isOPNoob: Bool = false
     public var url: URL?// = URL(string: "")!
     public var urlDomain: String {
         get {
@@ -110,6 +111,7 @@ open class HNPost {
         self.title = postDict["Title"] as? String ?? ""
         self.points = Int(((postDict["Points"] as? String ?? "").components(separatedBy: " ")[0])) ?? 0
         self.username = postDict["Username"] as? String ?? ""
+        self.isOPNoob = HNUser.cleanNoobUsername(username: &self.username)
         self.id = postDict["PostId"] as? String ?? ""
         self.time = postDict["Time"] as? String ?? ""
         if self.id != "" && html.contains("<a id='un_\(self.id)") {
