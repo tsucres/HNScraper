@@ -165,7 +165,9 @@ open class HNComment: BaseComment {
         newComment.text = cDict["Text"] as? String ?? ""
         //newComment.links = ...
         newComment.type = .askHN
-        newComment.upvoteUrl = String(describing: upvoteUrl) as String //(upvoteUrl?.length)! > 0 ? upvoteUrl : "";
+        if upvoteUrl != nil {
+            newComment.upvoteUrl = String(describing: upvoteUrl!) as String //(upvoteUrl?.length)! > 0 ? upvoteUrl : "";
+        }
         newComment.id = cDict["CommentId"] as? String ?? ""
         return newComment
     }
