@@ -15,8 +15,7 @@ import Foundation
  */
 public class HNParseConfig {
     private let savingKey = "HNParseConfig"
-    //private let url = "https://raw.githubusercontent.com/tsucres/HNScraper/master/hn.json"
-    private let url = "http://localhost:8000/hn.json"
+    private let url = "https://raw.githubusercontent.com/tsucres/HNScraper/0.2.1/hn.json"
     private var _config: [String: Any]? = nil
     private init() {}
     public static let shared = HNParseConfig()

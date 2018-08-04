@@ -47,7 +47,7 @@ Ensure you have at least the following code in your `Podfile`:
 use_frameworks!
 
 target 'YourAppName' do
-    pod 'HNScraper', '~> 0.1.1'
+    pod 'HNScraper', '~> 0.2.1'
 end
 ```
 
