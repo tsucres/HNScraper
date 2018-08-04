@@ -29,7 +29,7 @@ open class HNUser {
      *
      */
     public convenience init(username: String, karma: String, age: String, aboutInfo: String?, isNoob: Bool = false) {
-        self.init(username: username, karma: Int(karma.replacingOccurrences(of: " ", with: "")) ?? 0, age: HNUser.dateFromNumberOfDays(Int(age) ?? 0), aboutInfo: aboutInfo)
+        self.init(username: username, karma: Int(karma.replacingOccurrences(of: " ", with: "")) ?? 0, age: HNUser.dateFromFormat(date: age), aboutInfo: aboutInfo)
     }
     
     public convenience init?(fromHtml html: String, withParsingConfig parseConfig: [String : Any]) {
@@ -68,7 +68,7 @@ open class HNUser {
         if uDict["user"] == nil {
             return nil
         }
-        self.init(username: uDict["user"]  as! String, karma: uDict["karma"] as? String ?? "", age: uDict["age"] as? String ?? "", aboutInfo: uDict["about"] as? String, isNoob: isNoob)
+        self.init(username: uDict["user"]  as! String, karma: uDict["karma"] as? String ?? "", age: uDict["created"] as? String ?? "", aboutInfo: uDict["about"] as? String, isNoob: isNoob)
         
     }
     
@@ -84,6 +84,14 @@ open class HNUser {
     /// Converts the number of days from current date to a Date instance.
     private static func dateFromNumberOfDays(_ numberOfDays: Int) -> Date {
         return Calendar.current.date(byAdding: .day, value: -numberOfDays, to: Date())!
+    }
+    
+    private static func dateFromFormat(date: String, dateFormat: String = "yyyy-MM-dd") -> Date {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = dateFormat
+        
+        let date = dateFormatter.date(from: date)
+        return date ?? Date()
     }
     
 }

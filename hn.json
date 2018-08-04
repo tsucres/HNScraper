@@ -191,9 +191,9 @@
 			"E": "</a>",
 			"I": "user"
 		}, {
-			"S": "created:</td><td>",
-			"E": " ",
-			"I": "age"
+			"S": "href=\"front?day=",
+			"E": "&birth",
+			"I": "created"
 		}, {
 			"S": "karma:</td><td>",
 			"E": "</td>",
@@ -206,6 +206,13 @@
 			"S": "about:</td><td>\n",
 			"E": "</td>",
 			"I": "about"
+		}, {
+			"S": "created:</td><td>",
+            "E": " ",
+            "I": "age"
 		}]
+	},
+	"ParsingKeys": {
+		"UserCreationDateFormat": "yyyy-MM-dd"
 	}
 }
