@@ -773,6 +773,7 @@ public class HNScraper {
             completion(.notLoggedIn)
             return
         }
+        // If the submission does not verfy these conditions, it will be rejected by HN anyway
         if title.count < 1 || title.count > 80 || (text == nil && link == nil) {
             completion(.invalidSubmission)
             return
@@ -782,6 +783,7 @@ public class HNScraper {
         if let cookie = HNLogin.shared.sessionCookie {
             cookies.append(cookie)
         }
+        // get the submission form
         getHtmlAndParsingConfig(url: url, cookies: cookies) { (html, error) in
             if html == nil {
                 completion(error ?? .noData)
@@ -792,7 +794,11 @@ public class HNScraper {
                 return
             }
             if html!.contains("login") {
-                completion(HNScraperError.notLoggedIn) // Shouldn't happen
+                completion(HNScraperError.notLoggedIn) // Shouldn't happen since we checked that the user was logged in
+                return
+            }
+            if [HNScraperError.serverUnreachable, .invalidURL, .noInternet].contains(error) {
+                completion(error)
                 return
             }
             self.parseSubmissionForm(html: html!, title: title, link: link, text: text, completion: completion)
@@ -801,17 +807,12 @@ public class HNScraper {
         
     }
     
-    public func replyTo(Post post: HNPost, withText text: String, completion: (HNScraperError?) -> Void) {
-        guard let cookie = HNLogin.shared.sessionCookie else {
-            completion(.notLoggedIn)
-            return
-        }
-        
-        
+    public func replyTo(Post post: HNPost, withText text: String, completion: @escaping (HNScraperError?) -> Void) {
+        replyTo(ItemWithId: post.id, withText: text, completion: completion)
     }
     
-    public func replyTo(Comment comment: HNComment, withText text: String, completion: (HNScraperError?) -> Void) {
-        
+    public func replyTo(Comment comment: HNComment, withText text: String, completion: @escaping (HNScraperError?) -> Void) {
+        replyTo(ItemWithId: comment.id, withText: text, completion: completion)
     }
     
     
@@ -834,6 +835,10 @@ public class HNScraper {
             }
             if !html!.contains("textarea") {
                 completion(.parsingError)
+                return
+            }
+            if [HNScraperError.serverUnreachable, .invalidURL, .noInternet].contains(error) {
+                completion(error)
                 return
             }
             self.parseReplyForm(html: html!, text: text, completion: completion)
@@ -877,6 +882,15 @@ public class HNScraper {
         }
     }
     
+    /**
+     *  Parse qnd submit the post submission form
+     *  - parameters:
+     *      - html: the html of the submission form. It contains the fnid that is necessary to submit the form.
+     *      - title: the title of the post to submit
+     *      - link: the url of the Story (nil for an AskHN, necessary for a classic story)
+     *      - text: only for AskHN, the content of the post
+     *      - completoin: called when the form has been submitted with the evntual error as argument
+     */
     private func parseSubmissionForm(html: String, title: String, link: String?, text: String?, completion: @escaping (HNScraperError?) -> Void) {
         let scanner = Scanner(string: html)
         let parseConfig = HNParseConfig.shared.data
