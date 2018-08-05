@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'HNScraper'
-  s.version          = '0.1.1'
+  s.version          = '0.2.1'
   s.summary          = 'Scraper for hackernews written in swift'
  
   s.description      = <<-DESC

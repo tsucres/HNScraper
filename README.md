@@ -47,7 +47,7 @@ Ensure you have at least the following code in your `Podfile`:
 use_frameworks!
 
 target 'YourAppName' do
-    pod 'HNScraper', '~> 0.1.1'
+    pod 'HNScraper', '~> 0.2.1'
 end
 ```
 
@@ -304,7 +304,7 @@ Also, I'm not a native English speaker, so don't hesitate to correct some of my 
 
 HNScraper is licensed under the standard MIT License.
 
-**Copyright (C) 2017 by Stéphane Sercu**
+**Copyright (C) 2017-2018 by Stéphane Sercu**
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
