@@ -226,11 +226,27 @@ class HNScraperLoginNeededTest: XCTestCase {
     }
     
     func testReplyToPost() {
-        
+        let expValid = expectation(description: "post valid link post")
+        let postId = "17736478"
+        let commentText = "I planned to fix some bugs in HNBuddy [1]. I was hoping to deliver an update this week, but I just spent 6 hours trying to fix a navigation bar that is supposed to hide on scroll. It is finally working as I want (and on all the supported devices). I just have to clean all that code now...\n\nIt's kind of frustrating to spend to much time on details like that. Nobody will ever think \"wow, that navbar is smooth!\".\n\nBtw, the navbar is implemented in an open source project [2], if you want to get a look at it.\n\n[1] http://www.hnbuddy.io\n[2] https://github.com/tsucres/SwiftyMercuryReady"
+        let urlPath = HNScraper.baseUrl + "item?id=" + postId
+        HNScraper.shared.replyTo(ItemAtUrl: urlPath, withText: commentText, completion: { (error) in
+            XCTAssertNil(error)
+            expValid.fulfill()
+        })
+        wait(for: [expValid], timeout: 20*HNScraperTest.defaultTimeOut)
     }
     
     func testReplyToComment() {
-        
+        let expValid = expectation(description: "post valid link post")
+        let commentId = "17734319"
+        let commentText = "I also dislike Google Analytics for the same reason. However, I manage several websites and I still want a way to monitor their trafic. And I don't know any other tool that is as easy and complete as GA. Till now I resist the temptation of adding it to my webpages, but I am looking for a solution.\n\n Do you know about an alternative?"
+        let urlPath = HNScraper.baseUrl + "reply?id=" + commentId
+        HNScraper.shared.replyTo(ItemAtUrl: urlPath, withText: commentText, completion: { (error) in
+            XCTAssertNil(error)
+            expValid.fulfill()
+        })
+        wait(for: [expValid], timeout: 20*HNScraperTest.defaultTimeOut)
     }
 }
 class HNScraperTest: XCTestCase {
@@ -238,7 +254,6 @@ class HNScraperTest: XCTestCase {
     static let validFilledUsername = "kposehn" // Chose him randomly
     static let invalidUsername = "ToBeOrNotToBeSureThatNoOneHasThatUsername" // *Resisting to the urge to create a new account with that username just to mess with these tests.*
     static let validCredential = ["username": "abdurhtl", "password": "!Bullshit?Psw$"]
-    
     static let validPostId = "15331016"
     override func setUp() {
         super.setUp()

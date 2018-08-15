@@ -808,22 +808,22 @@ public class HNScraper {
     }
     
     public func replyTo(Post post: HNPost, withText text: String, completion: @escaping (HNScraperError?) -> Void) {
-        replyTo(ItemWithId: post.id, withText: text, completion: completion)
+        let urlPath = HNScraper.baseUrl + "item?id=" + post.id
+        replyTo(ItemAtUrl: urlPath, withText: text, completion: completion)
     }
     
     public func replyTo(Comment comment: HNComment, withText text: String, completion: @escaping (HNScraperError?) -> Void) {
-        replyTo(ItemWithId: comment.id, withText: text, completion: completion)
+        let urlPath = HNScraper.baseUrl + "reply?id=" + comment.id
+        replyTo(ItemAtUrl: urlPath, withText: text, completion: completion)
     }
     
     
-    private func replyTo(ItemWithId id: String, withText text: String, completion: @escaping (HNScraperError?) -> Void) {
+    public func replyTo(ItemAtUrl urlPath: String, withText text: String, completion: @escaping (HNScraperError?) -> Void) {
         guard let cookie = HNLogin.shared.sessionCookie else {
             completion(.notLoggedIn)
             return
         }
-        
-        let urlPath = HNScraper.baseUrl + "reply?id=" + id
-        
+
         self.getHtmlAndParsingConfig(url: urlPath, cookies: [cookie]) { (html, error) in
             if html == nil {
                 completion(error ?? .noData)
@@ -871,7 +871,7 @@ public class HNScraper {
             
             let bodyString: String = partString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
             let bodyData = bodyString.data(using: .utf8)
-            submitSubmissionForm(WithData: bodyData!, pathComponent: replyDict!["Action"] as! String, completion: { (error) in
+            submitSubmissionForm(WithData: bodyData!, pathComponent: replyDict!["Action"] as! String, text: text, completion: { (error) in
                 completion(error)
                 return
             })
@@ -932,7 +932,7 @@ public class HNScraper {
             }
             
             let bodyData = bodyString.data(using: .utf8)
-            submitSubmissionForm(WithData: bodyData!, pathComponent: submitDict!["Action"] as! String, completion: { (error) in
+            submitSubmissionForm(WithData: bodyData!, pathComponent: submitDict!["Action"] as! String, text: text, completion: { (error) in
                 completion(error)
                 return
             })
@@ -942,18 +942,19 @@ public class HNScraper {
             return // nil
         }
     }
-
-    private func submitSubmissionForm(WithData bodyData: Data, pathComponent: String, completion: @escaping (HNScraperError?) -> Void) {
+    
+    // The text is needed in the case where HN asks for a confirmation
+    private func submitSubmissionForm(WithData bodyData: Data, pathComponent: String, text:String?, completion: @escaping (HNScraperError?) -> Void) {
         guard let cookie = HNLogin.shared.sessionCookie else {
             completion(.notLoggedIn)
             return
         }
         
         let url = HNScraper.baseUrl + pathComponent
-        var cookies: [HTTPCookie] = [cookie]
+        let cookies: [HTTPCookie] = [cookie]
         
         /*
-        postDataAndGetHtml(urlString: url, bodyData: bodyData, cookies: cookies) { (html, error) in
+        postDataAndGetHtml(urlString: url, bodyData: bodyData, cookies: cookies) { [weak self] (html, error) in
             if html == nil {
                 completion(error ?? .noData)
                 return
@@ -962,9 +963,18 @@ public class HNScraper {
                 completion(HNScraperError.unknown)
                 return
             }
-        }
-        */
-        completion(nil)
+            if (html!.contains("Add Comment | Hacker News")) { // In case of security confirmation is needed.
+                if (text != nil) { // Should only happentext with comment submission
+                    self?.parseReplyForm(html: html!, text: text!, completion: completion)
+                }
+                
+            } else {
+                completion(nil)
+            }
+            
+        }*/
+        
+        
     }
     
 }
