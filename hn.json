@@ -150,7 +150,7 @@
 			"I": "TRASH"
 		}, {
 			"S": "\">",
-			"E": "</span>\n              </div>",
+			"E": "<span>\n              </span>",
 			"I": "Text"
 		}, {
 			"S": "href=\"",
