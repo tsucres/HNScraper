@@ -234,13 +234,59 @@ class HNScraperLoginNeededTest: XCTestCase {
         })
         wait(for: [exp], timeout: HNScraperTest.defaultTimeOut)
     }
+    
+    
+    // Warning: Running this test could potentially post a story on HN... Please don't...
+    func testSubmitStory() {
+        let expValid = expectation(description: "post valid link post")
+        let expNoTitle = expectation(description: "don't submit post without title")
+        let expNoLinkNoText = expectation(description: "don't submit post without either a link or text")
+        HNScraper.shared.submitPost(withTitle: "", link: "www.turingarchive.org", text: nil) { (error) in
+            XCTAssertNotNil(error)
+            XCTAssertEqual(error!, HNScraper.HNScraperError.invalidSubmission)
+            expNoTitle.fulfill()
+        }
+        HNScraper.shared.submitPost(withTitle: "The Turing Digital Archive", link: nil, text: nil) { (error) in
+            XCTAssertNotNil(error)
+            XCTAssertEqual(error!, HNScraper.HNScraperError.invalidSubmission)
+            expNoLinkNoText.fulfill()
+        }
+        HNScraper.shared.submitPost(withTitle: "The Turing Digital Archive", link: "www.turingarchive.org", text: nil) { (error) in
+            XCTAssertNil(error)
+            expValid.fulfill()
+        }
+        wait(for: [expNoTitle, expNoLinkNoText, expValid], timeout: 2*HNScraperTest.defaultTimeOut)
+    }
+    
+    func testReplyToPost() {
+        let expValid = expectation(description: "post valid link post")
+        let postId = "17945377"
+        let commentText = "laidzhflzehbmfajzhrmjxvahmsjdfhamzobrjhcgamzjrmehnfaxqzmrgu"
+        let urlPath = HNScraper.baseUrl + "item?id=" + postId
+        HNScraper.shared.replyTo(ItemAtUrl: urlPath, withText: commentText, completion: { (error) in
+            XCTAssertNil(error)
+            expValid.fulfill()
+        })
+        wait(for: [expValid], timeout: 2*HNScraperTest.defaultTimeOut)
+    }
+    
+    func testReplyToComment() {
+        let expValid = expectation(description: "post valid link post")
+        let commentId = "17945690"
+        let commentText = "azeoifamozejhfmaozjhemnof    mzoireyfmgaobuzcrymoauzrfoaxnorzaygmzorbuygmacozurgmoauezrxnaruzgybarcgar"
+        let urlPath = HNScraper.baseUrl + "reply?id=" + commentId
+        HNScraper.shared.replyTo(ItemAtUrl: urlPath, withText: commentText, completion: { (error) in
+            XCTAssertNil(error)
+            expValid.fulfill()
+        })
+        wait(for: [expValid], timeout: 2*HNScraperTest.defaultTimeOut)
+    }
 }
 class HNScraperTest: XCTestCase {
     static let defaultTimeOut: TimeInterval = 10
     static let validFilledUsername = "kposehn" // Chose him randomly
     static let invalidUsername = "ToBeOrNotToBeSureThatNoOneHasThatUsername" // *Resisting to the urge to create a new account with that username just to mess with these tests.*
     static let validCredential = ["username": "abdurhtl", "password": "!Bullshit?Psw$"]
-    
     static let validPostId = "15331016"
     override func setUp() {
         super.setUp()
@@ -310,7 +356,7 @@ class HNScraperTest: XCTestCase {
                 })
             })
         }
-        wait(for: [exp], timeout: HNScraperTest.defaultTimeOut)
+        wait(for: [exp], timeout: 3*HNScraperTest.defaultTimeOut)
     }
     
     func testGetSubmissionOfNonExistingUser() {

@@ -94,6 +94,12 @@ public class HNLogin {
             return
         }
         
+        /*let cookieStorage: HTTPCookieStorage = HTTPCookieStorage.shared
+        let cookies = cookieStorage.cookies(for: URL(string: url)!)
+        for coo in cookies! {
+            cookieStorage.deleteCookie(coo as HTTPCookie)
+        }*/
+        
         RessourceFetcher.shared.post(urlString: url, data: bodyData, completion: {data, reponse, error -> Void in
             if data == nil {
                 completion(nil, nil, HNLoginError(error) ?? .unknown)
@@ -108,7 +114,7 @@ public class HNLogin {
                     scanner.scanUpTo("/a>&nbsp;(", into: &trash) // TODO: use config file
                     scanner.scanString("/a>&nbsp;(", into: &trash)
                     scanner.scanUpTo(")", into: &karma)
-                    self._user = HNUser(username: username, karma: karma as String!, age: "", aboutInfo: "")
+                    self._user = HNUser(username: username, karma: karma! as String, age: "", aboutInfo: "")
                     
                     self.getLoggedInUser(user: self._user!, completion: {(user, cookie, error) -> Void in
                         
@@ -208,7 +214,7 @@ public class HNLogin {
                         scanner.scanString("&nbsp;(", into: &trash)
                         scanner.scanUpTo(")", into: &karma)
                         
-                        let user = HNUser(username: userString as String!, karma: karma as String!, age: "", aboutInfo: "")
+                        let user = HNUser(username: userString as! String, karma: karma as String!, age: "", aboutInfo: "")
                         
                         self.getLoggedInUser(user: user, completion: completion)
                         

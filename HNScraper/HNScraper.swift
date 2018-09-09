@@ -80,6 +80,9 @@ public class HNScraper {
         case noSuchUser
         /// When the post id used to make a request doesn't exist
         case noSuchPost
+        /// When a new post is invalid. Constraints are: 0 < length(title) <= 80, text || link
+        case invalidSubmission
+        
         case unknown
         
         init?(_ error: RessourceFetcher.RessourceFetchingError?) {
@@ -191,33 +194,42 @@ public class HNScraper {
      - completion: the closure called with the html content as
      parameter when the download is completed
      */
-    private func downloadHtmlPage(urlString: String, cookie: HTTPCookie? = nil, completion: @escaping ((String?, HNScraperError?) -> Void), tries: Int = 3) {
-        RessourceFetcher.shared.fetchData(urlString: urlString, completion: {(data, error) -> Void in
-            if data == nil {
-                completion(nil, HNScraperError(error) ?? .noData)
+    private func downloadHtmlPage(urlString: String, cookies: [HTTPCookie] = [], completion: @escaping ((String?, HNScraperError?) -> Void), tries: Int = 3) {
+        RessourceFetcher.shared.fetchData(urlString: urlString, cookies: cookies, completion: {(data, error) -> Void in
+            let decodedHtml = self.decodeResponseDataToHtml(data, error: error)
+            if decodedHtml.error == .serverUnreachable &&
+                decodedHtml.html?.contains("<td>\n          Sorry, we\'re not able to serve your requests this quickly.\n        </td>") ?? false &&
+                tries > 0 {
+                // FIXME: Temporary fix: if several request are sent at the same time, HN refuses to serve a response. => wait a bit then try again.
+                // For some reason, this occurs only if the user is connected (cookie != nil)
+                let rndInt = Int(arc4random_uniform(700)) + 300 // Random so that if several requests need to be restarted, they do not restart at the same time.... I told you, this is dirty!
+                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(rndInt), execute: { [weak self] in
+                    self?.downloadHtmlPage(urlString: urlString, cookies: cookies, completion: completion, tries: tries-1)
+                })
             } else {
-                if let decodedHtml = String(data: data!, encoding: .utf8) {
-                    if error == .serverError500Range &&
-                        decodedHtml.contains("<td>\n          Sorry, we\'re not able to serve your requests this quickly.\n        </td>") &&
-                        tries > 0 {
-                        // FIXME: Temporary fix: if several request are sent at the same time, HN refuses to serve a response. => wait a bit then try again.
-                        // For some reason, this occurs only if the user is connected (cookie != nil)
-                        let rndInt = Int(arc4random_uniform(700)) + 300 // Random so that if several requests need to be restarted, they do not restart at the same time.... I told you, this is dirty!
-                        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(rndInt), execute: { [weak self] in
-                            self?.downloadHtmlPage(urlString: urlString, cookie: cookie, completion: completion, tries: tries-1)
-                        })
-                    } else {
-                        completion(decodedHtml, HNScraperError(error))
-                    }
-                    
-                } else {
-                    completion(nil, HNScraperError(error) ?? .parsingError)
-                }
+                completion(decodedHtml.html, decodedHtml.error)
             }
-            
         })
     }
     
+    private func postDataAndGetHtml(urlString: String, bodyData: Data, cookies: [HTTPCookie] = [], completion: @escaping ((String?, HNScraperError?) -> Void)) {
+        RessourceFetcher.shared.post(urlString: urlString, data: bodyData, cookies: cookies) { (data, response, error) in
+            let decodedHtml = self.decodeResponseDataToHtml(data, error: error)
+            completion(decodedHtml.html, decodedHtml.error)
+        }
+    }
+    
+    private func decodeResponseDataToHtml(_ data: Data?, error: RessourceFetcher.RessourceFetchingError?) -> (html: String?, error: HNScraperError?) {
+        if data == nil {
+            return (nil, HNScraperError(error) ?? .noData)
+        } else {
+            if let decodedHtml = String(data: data!, encoding: .utf8) {
+                return (decodedHtml, HNScraperError(error))
+            } else {
+                return (nil, HNScraperError(error) ?? .parsingError)
+            }
+        }
+    }
     public func testPostFromDiscussionThread(urlString: String, completion: @escaping ((String?, HNScraperError?) -> Void)) {
         self.getHtmlAndParsingConfig(url: urlString, completion: completion)
     }
@@ -363,13 +375,13 @@ public class HNScraper {
      This method is usefull to any other method that needs to
      download a webpage and parse it useing the configuration file.
      */
-    private func getHtmlAndParsingConfig(url: String, completion: @escaping ((String?, HNScraperError?) -> Void)) {
+    private func getHtmlAndParsingConfig(url: String, cookies: [HTTPCookie] = [], completion: @escaping ((String?, HNScraperError?) -> Void)) {
         let group = DispatchGroup()
         var _html: String?
         var parsingError: HNScraperError?
         // Fetch the page
         group.enter()
-        downloadHtmlPage(urlString: url, completion: {(html, error) -> Void in
+        downloadHtmlPage(urlString: url, cookies: cookies, completion: {(html, error) -> Void in
             parsingError = error
             _html = html
             group.leave()
@@ -604,18 +616,8 @@ public class HNScraper {
      */
     public func getComments(ForUserWithUsername username: String, completion: @escaping (([HNComment], String?, HNScraperError?) -> Void)) {
         let url = HNScraper.baseUrl + "threads?id=\(username)"
-        getComments(FromURl: url, completion: completion)/*
-        getHtmlAndParsingConfig(url: url, completion: { html, error -> Void in
-            if html == nil {
-                completion([], nil, error ?? .noData)
-                return
-            }
-            self.commentsHtmlToBeParsed = html
-            self.parseDownloadedComments(ForPost: HNPost(), completion: { (post, comments, linkForMore, error) in
-                completion(comments, linkForMore, error)
-            })
-        })*/
-     } // TODO
+        getComments(FromURl: url, completion: completion)
+     }
     
     // ==================================================
     // MARK: - Actions on posts/comments
@@ -636,7 +638,11 @@ public class HNScraper {
             }
         }
         if let newUrlString = urlComponent?.string {
-            downloadHtmlPage(urlString: newUrlString, cookie: HNLogin.shared.sessionCookie, completion: { html, error -> Void in
+            var cookies: [HTTPCookie] = []
+            if let cookie = HNLogin.shared.sessionCookie {
+                cookies.append(cookie)
+            }
+            downloadHtmlPage(urlString: newUrlString, cookies: cookies, completion: { html, error -> Void in
                 if html == nil {
                     completion(error ?? .noData)
                 } else {
@@ -702,8 +708,11 @@ public class HNScraper {
             let url = HNScraper.baseUrl + post.upvoteAdditionURL!.replacingOccurrences(of: "&amp;", with: "&")
                                                                 .replacingOccurrences(of: "how=up", with: "how=un")
                                                                 .replacingOccurrences(of: "vote?id=", with: "fave?id=")
-            
-            downloadHtmlPage(urlString: url, cookie: HNLogin.shared.sessionCookie, completion: { html, error -> Void in
+            var cookies: [HTTPCookie] = []
+            if let cookie = HNLogin.shared.sessionCookie {
+                cookies.append(cookie)
+            }
+            downloadHtmlPage(urlString: url, cookies: cookies, completion: { html, error -> Void in
                 // The favortie url redirect to the list of favorite of the user. We check if the id of the favorited post is in the post list (in the html).
                 if html == nil {
                     completion(error ?? .noData)
@@ -728,8 +737,11 @@ public class HNScraper {
         }
         if post.upvoteAdditionURL != nil {
             let url = HNScraper.baseUrl + post.upvoteAdditionURL!.replacingOccurrences(of: "&amp;", with: "&").replacingOccurrences(of: "how=up", with: "un=t").replacingOccurrences(of: "vote?id=", with: "fave?id=")
-            
-            downloadHtmlPage(urlString: url, cookie: HNLogin.shared.sessionCookie, completion: { html, error -> Void in
+            var cookies: [HTTPCookie] = []
+            if let cookie = HNLogin.shared.sessionCookie {
+                cookies.append(cookie)
+            }
+            downloadHtmlPage(urlString: url, cookies: cookies, completion: { html, error -> Void in
                 // The id of the unfavorited post must be absent from the html
                 if html == nil {
                     completion(error ?? .noData)
@@ -765,5 +777,216 @@ public class HNScraper {
         })
     }
     
+    
+    
+    public func submitPost(withTitle title: String, link: String?, text: String?, completion: @escaping (HNScraperError?) -> Void) {
+        if !HNLogin.shared.isLoggedIn() {
+            completion(.notLoggedIn)
+            return
+        }
+        // If the submission does not verfy these conditions, it will be rejected by HN anyway
+        if title.count < 1 || title.count > 80 || (text == nil && link == nil) {
+            completion(.invalidSubmission)
+            return
+        }
+        let url = HNScraper.baseUrl + "submit"
+        var cookies: [HTTPCookie] = []
+        if let cookie = HNLogin.shared.sessionCookie {
+            cookies.append(cookie)
+        }
+        // get the submission form
+        getHtmlAndParsingConfig(url: url, cookies: cookies) { (html, error) in
+            if html == nil {
+                completion(error ?? .noData)
+                return
+            }
+            if HNParseConfig.shared.data == nil {
+                completion(.missingOrCorruptedConfigFile)
+                return
+            }
+            if html!.contains("login") {
+                completion(HNScraperError.notLoggedIn) // Shouldn't happen since we checked that the user was logged in
+                return
+            }
+            if [HNScraperError.serverUnreachable, .invalidURL, .noInternet].contains(error) {
+                completion(error)
+                return
+            }
+            self.parseSubmissionForm(html: html!, title: title, link: link, text: text, completion: completion)
+            
+        }
+        
+    }
+    
+    public func replyTo(Post post: HNPost, withText text: String, completion: @escaping (HNScraperError?) -> Void) {
+        let urlPath = HNScraper.baseUrl + "item?id=" + post.id
+        replyTo(ItemAtUrl: urlPath, withText: text, completion: completion)
+    }
+    
+    public func replyTo(Comment comment: HNComment, withText text: String, completion: @escaping (HNScraperError?) -> Void) {
+        let urlPath = HNScraper.baseUrl + "reply?id=" + comment.id
+        replyTo(ItemAtUrl: urlPath, withText: text, completion: completion)
+    }
+    
+    
+    public func replyTo(ItemAtUrl urlPath: String, withText text: String, completion: @escaping (HNScraperError?) -> Void) {
+        guard let cookie = HNLogin.shared.sessionCookie else {
+            completion(.notLoggedIn)
+            return
+        }
+
+        self.getHtmlAndParsingConfig(url: urlPath, cookies: [cookie]) { (html, error) in
+            if html == nil {
+                completion(error ?? .noData)
+                return
+            }
+            if HNParseConfig.shared.data == nil {
+                completion(.missingOrCorruptedConfigFile)
+                return
+            }
+            if !html!.contains("textarea") {
+                completion(.parsingError)
+                return
+            }
+            if [HNScraperError.serverUnreachable, .invalidURL, .noInternet].contains(error) {
+                completion(error)
+                return
+            }
+            self.parseReplyForm(html: html!, text: text, completion: completion)
+        }
+    }
+    
+    private func parseReplyForm(html: String, text: String, completion: @escaping (HNScraperError?) -> Void) {
+        let scanner = Scanner(string: html)
+        let parseConfig = HNParseConfig.shared.data
+        var replyDict: [String : Any]? = (parseConfig != nil && parseConfig!["Reply"] != nil) ? parseConfig!["Reply"] as? [String: Any] : nil
+        if replyDict == nil {
+            completion(.parsingError)
+            return
+        }
+        
+        var partString = "" // Will contain the submission url
+        for part in ((replyDict!["Parts"] as? [[String: String]]) ?? []) {
+            var new: NSString? = ""
+            let isTrash = part["I"] == "TRASH"
+            scanner.scanBetweenString(stringA: part["S"]!, stringB: part["E"]!, into: &new)
+            if (!isTrash && (new?.length)! > 0) {
+                if let newString = new as String? {
+                    partString += part["I"]! + "=" + newString + "&"
+                }
+            }
+        }
+        
+        if partString.count > 0 {
+            partString.append("text=" + text)
+            
+            let bodyString: String = partString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+            let bodyData = bodyString.data(using: .utf8)
+            submitSubmissionForm(WithData: bodyData!, pathComponent: replyDict!["Action"] as! String, text: text, completion: { (error) in
+                completion(error)
+                return
+            })
+            
+        } else {
+            completion(HNScraperError.parsingError)
+            return // nil
+        }
+    }
+    
+    /**
+     *  Parse qnd submit the post submission form
+     *  - parameters:
+     *      - html: the html of the submission form. It contains the fnid that is necessary to submit the form.
+     *      - title: the title of the post to submit
+     *      - link: the url of the Story (nil for an AskHN, necessary for a classic story)
+     *      - text: only for AskHN, the content of the post
+     *      - completoin: called when the form has been submitted with the evntual error as argument
+     */
+    private func parseSubmissionForm(html: String, title: String, link: String?, text: String?, completion: @escaping (HNScraperError?) -> Void) {
+        let scanner = Scanner(string: html)
+        let parseConfig = HNParseConfig.shared.data
+        var submitDict: [String : Any]? = (parseConfig != nil && parseConfig!["Submit"] != nil) ? parseConfig!["Submit"] as? [String: Any] : nil
+        
+        if submitDict == nil {
+            completion(.parsingError)
+            return // nil
+        }
+        
+        var partString = "" // Will contain the submission url
+        for part in ((submitDict!["Parts"] as? [[String: String]]) ?? []) {
+            var new: NSString? = ""
+            let isTrash = part["I"] == "TRASH"
+            scanner.scanBetweenString(stringA: part["S"]!, stringB: part["E"]!, into: &new)
+            if (!isTrash && (new?.length)! > 0) {
+                if let newString = new as String? {
+                    partString += part["I"]! + "=" + newString + "&"
+                }
+            }
+        }
+        
+        
+        
+        if partString.count > 0 {
+            var bodyString: String = ""
+            let u = submitDict!["Url"] as! String
+            let t = submitDict!["Title"] as! String
+            let x = submitDict!["Text"] as! String
+            
+            
+            if !(link?.isEmpty ?? true) {
+                bodyString = String.init(format: "%@%@=%@&%@=%@", partString, u, link!, t, title).addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+            } else if !(text?.isEmpty ?? true) {
+                bodyString = String.init(format: "%@%@=&%@=%@&%@=%@", partString, u, t, title, x, text!).addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+            } else {
+                completion(.parsingError)
+                return // nil
+            }
+            
+            let bodyData = bodyString.data(using: .utf8)
+            submitSubmissionForm(WithData: bodyData!, pathComponent: submitDict!["Action"] as! String, text: text, completion: { (error) in
+                completion(error)
+                return
+            })
+            
+        } else {
+            completion(HNScraperError.parsingError)
+            return // nil
+        }
+    }
+    
+    // The text is needed in the case where HN asks for a confirmation
+    private func submitSubmissionForm(WithData bodyData: Data, pathComponent: String, text:String?, completion: @escaping (HNScraperError?) -> Void) {
+        guard let cookie = HNLogin.shared.sessionCookie else {
+            completion(.notLoggedIn)
+            return
+        }
+        
+        let url = HNScraper.baseUrl + pathComponent
+        let cookies: [HTTPCookie] = [cookie]
+        
+        
+        postDataAndGetHtml(urlString: url, bodyData: bodyData, cookies: cookies) { [weak self] (html, error) in
+            if html == nil {
+                completion(error ?? .noData)
+                return
+            }
+            if html!.contains("logout?goto") {
+                completion(HNScraperError.unknown)
+                return
+            }
+            if (html!.contains("Add Comment | Hacker News")) { // In case of security confirmation is needed.
+                if (text != nil) { // Should only happentext with comment submission
+                    self?.parseReplyForm(html: html!, text: text!, completion: completion)
+                }
+                
+            } else {
+                completion(nil)
+            }
+            
+        }
+        // For testing purpose: comment the previous block qnd uncomment the following line.
+        //completion(nil)
+        
+    }
     
 }

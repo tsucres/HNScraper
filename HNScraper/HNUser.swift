@@ -54,11 +54,6 @@ open class HNUser {
                         var newStr: String = String(describing: new!)
                         isNoob = HNUser.cleanNoobUsername(username: &(newStr))
                         new = newStr as NSString
-                        /*if new!.contains("<font color=\"#3c963c\">") {
-                            new = new!.replacingOccurrences(of: "<font color=\"#3c963c\">", with: "") as NSString
-                            new = new!.replacingOccurrences(of: "</font>", with: "") as NSString
-                            isNoob = true
-                        }*/
                     }
                     uDict[dict["I"] as! String] = new
                 }
