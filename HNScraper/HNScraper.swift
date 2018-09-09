@@ -191,13 +191,25 @@ public class HNScraper {
      - completion: the closure called with the html content as
      parameter when the download is completed
      */
-    private func downloadHtmlPage(urlString: String, cookie: HTTPCookie? = nil, completion: @escaping ((String?, HNScraperError?) -> Void)) {
+    private func downloadHtmlPage(urlString: String, cookie: HTTPCookie? = nil, completion: @escaping ((String?, HNScraperError?) -> Void), tries: Int = 3) {
         RessourceFetcher.shared.fetchData(urlString: urlString, completion: {(data, error) -> Void in
             if data == nil {
                 completion(nil, HNScraperError(error) ?? .noData)
             } else {
                 if let decodedHtml = String(data: data!, encoding: .utf8) {
-                    completion(decodedHtml, HNScraperError(error))
+                    if error == .serverError500Range &&
+                        decodedHtml.contains("<td>\n          Sorry, we\'re not able to serve your requests this quickly.\n        </td>") &&
+                        tries > 0 {
+                        // FIXME: Temporary fix: if several request are sent at the same time, HN refuses to serve a response. => wait a bit then try again.
+                        // For some reason, this occurs only if the user is connected (cookie != nil)
+                        let rndInt = Int(arc4random_uniform(700)) + 300 // Random so that if several requests need to be restarted, they do not restart at the same time.... I told you, this is dirty!
+                        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(rndInt), execute: { [weak self] in
+                            self?.downloadHtmlPage(urlString: urlString, cookie: cookie, completion: completion, tries: tries-1)
+                        })
+                    } else {
+                        completion(decodedHtml, HNScraperError(error))
+                    }
+                    
                 } else {
                     completion(nil, HNScraperError(error) ?? .parsingError)
                 }

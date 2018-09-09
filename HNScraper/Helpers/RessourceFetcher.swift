@@ -57,7 +57,7 @@ class RessourceFetcher {
     /// Fetches the ressource pointed by the specified url and passes it to the completionHandler
     func fetchData(urlString: String, completion: @escaping FetchCompletion, timeout: TimeInterval = 20) {
         if let url = URL(string: urlString) {
-            let req = URLRequest(url: url, cachePolicy: .reloadIgnoringCacheData, timeoutInterval: timeout)
+            let req = URLRequest(url: url, cachePolicy: .reloadIgnoringCacheData, timeoutInterval: timeout) // TODO: caches
             self.execRequest(req, completion: {(data, response, error) -> Void in
                 completion(data, error)
             })

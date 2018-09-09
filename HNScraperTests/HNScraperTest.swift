@@ -20,7 +20,40 @@ class HNScraperLoginNeededTest: XCTestCase {
         wait(for: [exp], timeout: HNScraperTest.defaultTimeOut)
     }
     
-
+    func testFloodRequest() {
+        let exp1 = expectation(description: "Req1 succeeds")
+        HNScraper.shared.getSubmissions(ForUserWithUsername: HNScraperTest.validFilledUsername) { (posts, loadMoreString, error) in
+            XCTAssertNil(error)
+            XCTAssertGreaterThan(posts.count, 0)
+            exp1.fulfill()
+        }
+        let exp2 = expectation(description: "Req2 succeeds")
+        HNScraper.shared.getFavorites(ForUserWithUsername: "tsucres") { (posts, loadMoreString, error) in
+            XCTAssertNil(error)
+            XCTAssertGreaterThan(posts.count, 0)
+            exp2.fulfill()
+        }
+        let exp3 = expectation(description: "Req3 succeeds")
+        HNScraper.shared.getComments(ForUserWithUsername: HNScraperTest.validFilledUsername) { (coms, loadMoreString, error) in
+            XCTAssertNil(error)
+            XCTAssertGreaterThan(coms.count, 0)
+            exp3.fulfill()
+        }
+        let exp4 = expectation(description: "Req4 succeeds")
+        HNScraper.shared.getFavorites(ForUserWithUsername: "tsucres") { (posts, loadMoreString, error) in
+            XCTAssertNil(error)
+            XCTAssertGreaterThan(posts.count, 0)
+            exp4.fulfill()
+        }
+        let exp5 = expectation(description: "Req5 succeeds")
+        HNScraper.shared.getComments(ForUserWithUsername: HNScraperTest.validFilledUsername) { (coms, loadMoreString, error) in
+            XCTAssertNil(error)
+            XCTAssertGreaterThan(coms.count, 0)
+            exp5.fulfill()
+        }
+        
+        wait(for: [exp1, exp2, exp3, exp4, exp5], timeout: HNScraperTest.defaultTimeOut)
+    }
     func login(completion: @escaping ((Bool) -> Void)) {
         if !HNLogin.shared.isLoggedIn() {
             let username = HNScraperTest.validCredential["username"]!
@@ -395,4 +428,6 @@ class HNScraperTest: XCTestCase {
         }
         wait(for: [exp], timeout: HNScraperTest.defaultTimeOut)
     }
+    
+    
 }
