@@ -387,14 +387,14 @@ public class HNScraper {
         self.getPost(ById: postId, buildHierarchy: buildHierarchy, completion: completion)
     }
     
-    private func getComments(FromURl url: String, buildHierarchy: Bool = true, completion: @escaping (([HNComment], String?, HNScraperError?) -> Void)) {
+    private func getComments(FromURl url: String, buildHierarchy: Bool = true, offsetComments: Bool = true, completion: @escaping (([HNComment], String?, HNScraperError?) -> Void)) {
         getHtmlAndParsingConfig(url: url, completion: { html, error -> Void in
             if html == nil {
                 completion([], nil, error ?? .noData)
                 return
             }
             self.commentsHtmlToBeParsed = html
-            self.parseDownloadedComments(ForPost: HNPost(), buildHierarchy: buildHierarchy, completion: {(post, comments, linkForMore, error) in
+            self.parseDownloadedComments(ForPost: HNPost(), buildHierarchy: buildHierarchy, offsetComments: offsetComments, completion: {(post, comments, linkForMore, error) in
                 completion(comments, linkForMore, error)
             })
         })
@@ -407,7 +407,7 @@ public class HNScraper {
          - buildHierarchy: indicates if the comments must be nested or must all be placed at the root of the array
      - Note: the type of the post has to be specified in order to handle a askHN or a job correctly
      */
-    public func getComments(ForPost post: HNPost, buildHierarchy: Bool = true, completion: @escaping ((HNPost, [HNComment], HNScraperError?) -> Void)) {
+    public func getComments(ForPost post: HNPost, buildHierarchy: Bool = true, offsetComments: Bool = true, completion: @escaping ((HNPost, [HNComment], HNScraperError?) -> Void)) {
         let url = HNScraper.baseUrl + "item?id=\(post.id)"
         
         getHtmlAndParsingConfig(url: url, completion: { html, error -> Void in
@@ -420,12 +420,12 @@ public class HNScraper {
                 return
             }
             self.commentsHtmlToBeParsed = html
-            self.parseDownloadedComments(ForPost: post, buildHierarchy: buildHierarchy, completion: { post, comments, linkFormore, error -> Void in completion(post, comments, error) })
+            self.parseDownloadedComments(ForPost: post, buildHierarchy: buildHierarchy, offsetComments: offsetComments, completion: { post, comments, linkFormore, error -> Void in completion(post, comments, error) })
         })
     }
     
     // TODO: That method is ugly, That method is ugly, That method's ugly, 'at method's ugly, thod's ugly, thod's gly, thod's y, Hodor
-    private func parseDownloadedComments(ForPost post:HNPost, buildHierarchy: Bool = true, completion: ((HNPost, [HNComment], String?, HNScraperError?) -> Void)) {
+    private func parseDownloadedComments(ForPost post:HNPost, buildHierarchy: Bool = true, offsetComments: Bool = true, completion: ((HNPost, [HNComment], String?, HNScraperError?) -> Void)) {
         let parseConfig = HNParseConfig.shared.data
         let html = self.commentsHtmlToBeParsed
         if html == nil {
@@ -508,8 +508,8 @@ public class HNScraper {
         // 1st object is garbage.
         htmlComponents?.remove(at: 0)
         for (index, htmlComponent) in htmlComponents!.enumerated() {
-            
-            if let newComment = HNComment(fromHtml: htmlComponent, withParsingConfig: parseConfig!, levelOffset: (post.type == .jobs || post.type == .askHN) ? 1 : 0) {
+            let offset = post.type == .jobs || post.type == .askHN && offsetComments ? 1 : 0
+            if let newComment = HNComment(fromHtml: htmlComponent, withParsingConfig: parseConfig!, levelOffset: offset) {
                 if newComment.level == 0 { // If root comment
                     rootComments.append(newComment)
                 } else { // looking for parent
